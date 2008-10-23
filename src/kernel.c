@@ -1,15 +1,20 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
+#include "../include/ints.h"
+#include "../include/kc.h"
 
-DESCR_INT idt[0xA];			/* IDT de 10 entradas*/
+DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
+
+int screen_pos = 0;
+char * video = (char *) 0xb8000;
 
 int tickpos=640;
 
 void int_08() {
-
-    char *video = (char *) 0xb8000;
-    video[tickpos+=2]='*';
+	char c = 'j';
+	
+    writeWrapper(&c, 1);
 
 }
 
@@ -31,6 +36,7 @@ kmain()
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
+        setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
 	
 /* Carga de IDTR    */
 
@@ -50,6 +56,7 @@ kmain()
 
         while(1)
         {
+        	
         }
 	
 }

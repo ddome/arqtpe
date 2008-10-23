@@ -1,4 +1,8 @@
 #include "../include/kc.h"
+#include "../include/kasm.h"
+
+extern char * video;
+extern int screen_pos;
 
 
 /***************************************************************
@@ -38,4 +42,45 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
   item->offset_h = offset >> 16;
   item->access = access;
   item->cero = cero;
+}
+
+int writeWrapper(const void * buff, int size)
+{
+	//FileDesc fd;
+	char auxc = ' ';
+	int i;
+	
+	if (screen_pos >= (CANT_COLS * CANT_ROWS)*2)
+	{
+		for (screen_pos = 0; screen_pos < CANT_COLS *(CANT_ROWS -1)*2;)
+		{
+			write (SCREEN, video + screen_pos + CANT_COLS *2, 1);
+		}
+		for(i = 0; i < CANT_COLS; i++)
+			write (SCREEN, &auxc, 1);
+		screen_pos = CANT_COLS *(CANT_ROWS -1)*2;
+	}
+	for (i = 0; i < size; i++)
+	{
+		if (((char*)buff)[i] == '\n')
+		{
+			screen_pos += (CANT_COLS*2) - (screen_pos % (CANT_COLS *2));
+		}
+		else if (((char*)buff)[i] == '\t')
+		{
+			screen_pos += 4;
+		}
+		else if (((char*)buff)[i] == '\b')
+		{
+			screen_pos -= 2;
+			write (SCREEN,0,1);
+			screen_pos -= 2;
+		}
+		else
+		{
+			write (SCREEN,buff+i,1);
+		}
+	}
+	
+    return size;
 }

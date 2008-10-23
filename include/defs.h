@@ -27,6 +27,19 @@
 
 #pragma pack (1) 		/* Alinear las siguiente estructuras a 1 byte */
 
+/* Ctes para video*/
+#define CANT_COLS 80
+#define CANT_ROWS 25
+#define VID_CHAR 2
+#define SCREEN 1
+
+// defines sacados a partir de http://docs.hp.com/en/65/books/uidatt.htm
+#define WHITE_TXT 0x07	// Atributo de video. Letras blancas, fondo negro
+#define RED_TXT	0x74	// Atributo de video. Letras rojas, fondo gris
+
+/*Ctes para teclado*/
+#define KEYBOARD 1
+
 /* Descriptor de segmento */
 typedef struct {
   word limit,
@@ -53,7 +66,7 @@ typedef struct {
   dword base;
 } IDTR;
 
-     
+typedef int FileDesc;
 
 #endif
 
