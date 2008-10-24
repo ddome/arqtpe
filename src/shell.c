@@ -41,7 +41,7 @@ shell()
 	clear_screen();
 	welcome();
 
-
+	test_keys();
 
 	timer = 0;
 	while(1) {
@@ -52,11 +52,12 @@ shell()
 			test_keys();
 		}
 
-		if( timer == 1000000 ) {
+/*
+		if( timer == 10000000 ) {
 			clear_screen();
 			timer = 0;
 		}
-
+*/
 		/* Chequeo si se almaceno algo en el buffer del teclado */
 		/* mas adelante hay que implementar un getchar() para leer del
 		 * buffer creado */
