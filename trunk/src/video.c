@@ -1,9 +1,14 @@
 #include "../include/video.h"
 #include "../include/defs.h"
+#include "../include/ints.h"
+#include "../include/kasm.h"
 
-extern screen_pos;
-extern video; /*ESTA DIRECCION NO DEBERIA LEERSE FUERA DE LA INT80H*/
+extern int screen_pos;
+extern char * video; /*ESTA DIRECCION NO DEBERIA LEERSE FUERA DE LA INT80H*/
 
+/*esta variable es utilizada para chequear si hubo entradas del teclado */
+/*se puede cambiar por una variable global manejada por el driver del teclado */
+int entry = EMPTY;
 
 int writeWrapper(const void * buff, int size)
 {
@@ -73,11 +78,16 @@ refresh_in(char *buffer,int *last)
 {
 	char c[1];
 
-	if( read(KEYBOARD,&(c[0]),1) != EMPTY ) {
-		putchar(c[0]);
-		buffer[++(*last)];
-	}
+	/* chequea y lee en caso de haber una entrada pendiente */
+	read(KEYBOARD,&(c[0]),1);
 
+	if( entry == READ ) {
+		// la guarda e imprime
+
+		putchar(c[0]);
+		buffer[++(*last)] = c[0];
+
+	}
 
 }
 

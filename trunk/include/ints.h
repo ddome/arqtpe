@@ -3,6 +3,6 @@
 #include "defs.h"
 
 void int_80w(FileDesc fd, const void * buff, int size);
-int int_80r(FileDesc fd, char * buff, int size);
+void int_80r(FileDesc fd, char * buff, int size);
 
 #endif /*INTS_H_*/
