@@ -1,13 +1,18 @@
 #include "../include/defs.h"
 #include "../include/kasm.h"
 #include "../include/ints.h"
+#include "../include/defs.h"
 
 /* Variable global de la posicion en pantalla */
 int screen_pos = 0;
 char * video = (char *) 0xb8000;
 
-char format= WHITE_TXT;
+/* Buffer de prueba en reemplazo del buffer del teclado */
+extern test_buffer[];
+extern gl;
+/* */
 
+char format= WHITE_TXT;
 
 void int_80w(FileDesc fd, const void * buff, int size)
 {
@@ -17,9 +22,9 @@ void int_80w(FileDesc fd, const void * buff, int size)
 		case SCREEN: video = (char *) 0xb8000; break;
 		default: video = (char *) 0xb8000; break;
 	}
-	
+
     int i;
-    
+
     _Cli();
     for(i = 0; i < size; i++)
     {
@@ -29,23 +34,30 @@ void int_80w(FileDesc fd, const void * buff, int size)
     _Sti();
 }
 
-void int_80r(FileDesc fd, void * buff, int size)
+int int_80r(FileDesc fd, char * buff, int size)
 {
 	int i;
 
-	
+
 	switch (fd)
 	{
 		case KEYBOARD: break;
 		default: break;
 	}
-		
-	
+
+	if( gl < 0 )
+		return EMPTY;
+
 	_Cli();
-	    for(i = 0; i < size; i++)
-	    {
-//	        ((char*)buff)[i] =  ascbuff[gl+i];	/* ascbuff arreglo GLOBAL con los ascii y gl la posicion*/
-	    }
+
+	for(i = 0; i < size; i++) {
+		/* deja de almacenar en caso de no haber mas caracteres */
+		if( gl<0 )
+		  break;
+		buff[i] =  test_buffer[gl--];
+  }
 	_Sti();
-	
+
+	return READ;
+
 }

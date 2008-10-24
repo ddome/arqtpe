@@ -1,6 +1,6 @@
 /***************************************************
   Defs.h
-	
+
 ****************************************************/
 
 #ifndef _defs_
@@ -39,6 +39,9 @@
 
 /*Ctes para teclado*/
 #define KEYBOARD 1
+#define MAX_CHARS 100
+#define EMPTY -1
+#define READ 1
 
 /* Ctes para PCI */
 typedef unsigned int UINT32;

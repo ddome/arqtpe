@@ -46,8 +46,8 @@ _lidt:				; Carga el IDTR
         push    ebp
         mov     ebp, esp
         push    ebx
-        mov     ebx, [ss: ebp + 6] ; ds:bx = puntero a IDTR 
-	rol	ebx,16		    	
+        mov     ebx, [ss: ebp + 6] ; ds:bx = puntero a IDTR
+	rol	ebx,16
 	lidt    [ds: ebx]          ; carga IDTR
         pop     ebx
         pop     ebp
@@ -60,33 +60,33 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
         pusha               ; Carga de DS y ES con el valor del selector
         mov     ax, 10h		; a utilizar.
         mov     ds, ax
-        mov     es, ax                  
-        call    int_08                 
+        mov     es, ax
+        call    int_08
         mov	al,20h			; Envio de EOI generico al PIC
 		out	20h,al
-		popa                            
+		popa
         pop     es
         pop     ds
         iret
-        
 
-    
-_int_80_hand:	
+
+
+_int_80_hand:
 	push	ds
 	push	es
 	pusha
 
 	push eax
-	
+
 	mov	ax, 10h
 	mov	ds, ax
 	mov	es, ax
 
 	pop eax
 
-	cmp al, 03h		;llama a read
+	cmp al, 03h		;llama a myread
 	je	myread
-	cmp al, 04h		;llama a write
+	cmp al, 04h		;llama a mywrite
 	je	mywrite
 	jmp	exit
 
@@ -94,16 +94,16 @@ myread:
 	push	edx
 	push	ecx
 	push	ebx
-	call    int_80r
+	call    int_80r ; funcion implementada en c
 	jmp	exit
 
 mywrite:
 	push	edx
 	push	ecx
 	push	ebx
-	call    int_80w
+	call    int_80w ; funcion implementada en c
 	jmp	exit
-	
+
 exit:
 	pop	ebx
 	pop	ecx
@@ -115,9 +115,9 @@ exit:
 	pop	es
 	pop	ds
 	iret
-    	
+
 write:
-		
+
 		push    ebp
     	mov     ebp, esp
 
@@ -126,13 +126,13 @@ write:
     	mov     edx, [ebp+16]   ; cant
 		mov		al, 04h
     	int     080h
-		
-	    mov     esp, ebp        
+
+	    mov     esp, ebp
 	    pop     ebp
 	    ret
-	    
+
 read:
-		
+
 		push    ebp
     	mov     ebp, esp
 
@@ -141,11 +141,11 @@ read:
     	mov     edx, [ebp+16]   ; cant
 		mov		al, 03h
     	int     080h
-		
-	    mov     esp, ebp        
+
+	    mov     esp, ebp
 	    pop     ebp
 	    ret
-	    
+
 myout:
 	push EBP
 	mov EBP, ESP
@@ -153,7 +153,7 @@ myout:
 	mov EDX, [EBP+8]
 	out DX, Al
 	pop EBP
-	ret	
+	ret
 
 myin:
 	push EBP
