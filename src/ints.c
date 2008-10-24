@@ -2,7 +2,10 @@
 #include "../include/kasm.h"
 #include "../include/ints.h"
 
-extern int screen_pos;
+/* Variable global de la posicion en pantalla */
+int screen_pos = 0;
+char * video = (char *) 0xb8000;
+
 char format= WHITE_TXT;
 
 
@@ -29,7 +32,7 @@ void int_80w(FileDesc fd, const void * buff, int size)
 void int_80r(FileDesc fd, void * buff, int size)
 {
 	int i;
-//	char * scancodesbuff;
+
 	
 	switch (fd)
 	{
@@ -41,7 +44,7 @@ void int_80r(FileDesc fd, void * buff, int size)
 	_Cli();
 	    for(i = 0; i < size; i++)
 	    {
-//	        ((char*)buff)[i] =  scancodesbuff[i];
+//	        ((char*)buff)[i] =  ascbuff[gl+i];	/* ascbuff arreglo GLOBAL con los ascii y gl la posicion*/
 	    }
 	_Sti();
 	

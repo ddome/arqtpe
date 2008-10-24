@@ -40,6 +40,9 @@
 /*Ctes para teclado*/
 #define KEYBOARD 1
 
+/* Ctes para PCI */
+typedef unsigned int UINT32;
+
 /* Descriptor de segmento */
 typedef struct {
   word limit,
