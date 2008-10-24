@@ -3,10 +3,6 @@
 #include "../include/ints.h"
 
 
-/*esta variable es utilizada para chequear si hubo entradas del teclado */
-/*se puede cambiar por una variable global manejada por el driver del teclado */
-extern int entry;
-
 /* Variable global de la posicion en pantalla */
 int screen_pos = 0;
 char * video = (char *) 0xb8000;
@@ -50,11 +46,6 @@ void int_80r(FileDesc fd, char * buff, int size)
 	}
 
 	_Cli();
-
-	if( gl< 0 )
-		entry = EMPTY;
-	else
-		entry = READ;
 
 	i=0;
 	while( gl >= 0 && i<= size ) {

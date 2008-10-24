@@ -8,7 +8,7 @@ extern char * video; /*ESTA DIRECCION NO DEBERIA LEERSE FUERA DE LA INT80H*/
 
 /*esta variable es utilizada para chequear si hubo entradas del teclado */
 /*se puede cambiar por una variable global manejada por el driver del teclado */
-int entry = EMPTY;
+extern int gl;
 
 int writeWrapper(const void * buff, int size)
 {
@@ -78,11 +78,11 @@ refresh_in(char *buffer,int *last)
 {
 	char c[1];
 
-	/* chequea y lee en caso de haber una entrada pendiente */
-	read(KEYBOARD,&(c[0]),1);
-
-	if( entry == READ ) {
+	if( gl >= 0 ) {
 		// la guarda e imprime
+
+		/* chequea y lee en caso de haber una entrada pendiente */
+		read(KEYBOARD,&(c[0]),1);
 
 		putchar(c[0]);
 		buffer[++(*last)] = c[0];
@@ -94,15 +94,24 @@ refresh_in(char *buffer,int *last)
 void
 welcome()
 {
-	putchar('B');
-	putchar('i');
-	putchar('e');
-	putchar('n');
-	putchar('v');
-	putchar('e');
-	putchar('n');
-	putchar('i');
-	putchar('d');
-	putchar('o');
-	putchar('\n');
+	printf("Bienvenido a nuestro tpe\n");
+	printf("Minikernel v0.1\n");
+	prompt();
 }
+
+void
+printf(char *string)
+{
+	while( *string != '\0' ) {
+		putchar(*string);
+		string++;
+	}
+}
+
+void
+prompt()
+{
+	printf("\nbombau@minikernel: ");
+}
+
+

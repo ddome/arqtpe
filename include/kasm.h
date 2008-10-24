@@ -19,7 +19,7 @@ void		_Sti(void);	 /* Habilita interrupciones  */
 void		_int_08_hand();      /* Timer tick */
 void		_int_80_hand();      /* write */
 void		write();
-void		read();
+void		read(int fd, char *buff, int size);
 
 void		mywrite();
 void		myread();
