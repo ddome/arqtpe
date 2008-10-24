@@ -1,5 +1,6 @@
 GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand, _int_80_hand, write, read
+GLOBAL myin, myout
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 
@@ -144,6 +145,25 @@ read:
 	    mov     esp, ebp        
 	    pop     ebp
 	    ret
+	    
+myout:
+	push EBP
+	mov EBP, ESP
+	mov EAX, [EBP+12]
+	mov EDX, [EBP+8]
+	out DX, Al
+	pop EBP
+	ret	
+
+myin:
+	push EBP
+    mov EBP, ESP
+	mov EDX, [EBP+8]
+	mov ECX, [EBP+12]
+	in AL, DX
+	mov [ECX], AL
+	pop	EBP
+	ret
 
 
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0

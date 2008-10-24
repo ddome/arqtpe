@@ -2,19 +2,19 @@
 #include "../include/defs.h"
 #include "../include/ints.h"
 #include "../include/kc.h"
+#include "../include/pci.h"
+#include "../include/video.h"
+#include "../include/shell.h"
 
 DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
-
-int screen_pos = 0;
-char * video = (char *) 0xb8000;
 
 int tickpos=640;
 
 void int_08() {
 	char c = 'j';
 	
-    writeWrapper(&c, 1);
+     putchar(c);
 
 }
 
@@ -27,10 +27,8 @@ kmain()
 {
 
         int i,num;
-
-/* Borra la pantalla. */ 
-
-	k_clear_screen();
+        int flag = 0;
+        int vendor = 0xffff;
 
 
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
@@ -47,6 +45,7 @@ kmain()
 	_lidt (&idtr);	
 
 	_Cli();
+	
 /* Habilito interrupcion de timer tick*/
 
         _mascaraPIC1(0xFE);
@@ -54,10 +53,9 @@ kmain()
         
 	_Sti();
 
-        while(1)
-        {
-        	
-        }
+
+	/* Se inicia el shell */
+	shell();
+	
 	
 }
-
