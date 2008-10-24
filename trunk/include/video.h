@@ -19,4 +19,9 @@ void putchar(char c);
 /* Imprime un mensaje de bienvenida */
 void welcome();
 
+/* Imprime un string */
+void printf(char *string);
+
+void prompt(void);
+
 #endif

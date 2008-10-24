@@ -21,11 +21,11 @@ int gl=EMPTY;
 void
 test_keys()
 {
-	test_buffer[++gl] = 'a';
-	test_buffer[++gl] = 'r';
-	test_buffer[++gl] = 'q';
-	test_buffer[++gl] = 'u';
 	test_buffer[++gl] = 'i';
+	test_buffer[++gl] = 'u';
+	test_buffer[++gl] = 'q';
+	test_buffer[++gl] = 'r';
+	test_buffer[++gl] = 'a';
 }
 
 void
@@ -41,23 +41,16 @@ shell()
 	clear_screen();
 	welcome();
 
-	test_keys();
 
 	timer = 0;
 	while(1) {
 
 		/* cada 10000 iteraciones se ingresa una palabra */
 		timer++;
-		if( timer%10000 == 0 ) {
+		if( timer%100000 == 0 ) {
 			test_keys();
 		}
 
-/*
-		if( timer == 10000000 ) {
-			clear_screen();
-			timer = 0;
-		}
-*/
 		/* Chequeo si se almaceno algo en el buffer del teclado */
 		/* mas adelante hay que implementar un getchar() para leer del
 		 * buffer creado */
