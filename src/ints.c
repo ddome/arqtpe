@@ -48,7 +48,7 @@ void int_80r(FileDesc fd, char * buff, int size)
 	_Cli();
 
 	i=0;
-	while( gl >= 0 && i<= size ) {
+	while( gl >= 0 && i< size ) {
 		buff[i] = test_buffer[gl];
 		i++;
 		gl--;
