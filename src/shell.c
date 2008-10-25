@@ -20,6 +20,10 @@ shell()
 	while(1) {
 
 		getline(in_buffer,&last);
+
+		// proceso el comando almacenado en in_buffer
+
+		last = EMPTY;
 		prompt();
 	}
 

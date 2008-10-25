@@ -112,9 +112,9 @@ getline(char *buffer,int *last)
 		/* chequea y lee en caso de haber una entrada pendiente */
 			read(KEYBOARD,&(c[0]),1);
 
-			putchar(c[0]);
+			//putchar(c[0]);
 			buffer[++(*last)] = c[0];
-			//putchar(buffer[*last]);
+			putchar(buffer[*last]);
 		}
 	} while( c[0] != '\n' );
 
@@ -125,7 +125,7 @@ welcome()
 {
 	printf("========================================================================\n");
     printf("                      	Minikernel v0.1                                 \n");
-    printf("                                                                        \n");
+    printf("                Anda como el culo, pero anda...                         \n");
 	printf("========================================================================\n");
 	printf("\n");
 	prompt();
@@ -143,7 +143,7 @@ printf(char *string)
 void
 prompt()
 {
-	printf("\nbombau@minikernel: ");
+	printf("bombau@minikernel: ");
 }
 
 
