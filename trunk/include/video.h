@@ -16,13 +16,16 @@ void clear_screen();
 /* Funcion simple que escribe un caracter */
 void putchar(char c);
 
+/* Funcion simple que lee el caracter de la siguiente fila de la pantalla */
+int getNLChar();
+
 /* Imprime un mensaje de bienvenida */
 void welcome();
 
 /* Imprime un string */
 void printf(char *string);
 
-void getline(char *buffer,int *last);
+void getline(char *buffer);
 
 void prompt(void);
 
