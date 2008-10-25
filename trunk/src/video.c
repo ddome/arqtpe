@@ -6,9 +6,16 @@
 extern int screen_pos;
 extern char * video; /*ESTA DIRECCION NO DEBERIA LEERSE FUERA DE LA INT80H*/
 
-/*esta variable es utilizada para chequear si hubo entradas del teclado */
-/*se puede cambiar por una variable global manejada por el driver del teclado */
-extern int gl;
+
+/* Buffer de prueba en reemplazo del buffer del teclado */
+/* el buffer del teclado original tiene que ser una cola
+ * ya que con este buffer se imprime ar revez.
+ */
+char test_buffer[10];
+int gl=EMPTY;
+/* */
+
+
 
 int writeWrapper(const void * buff, int size)
 {
@@ -73,29 +80,54 @@ putchar(char c)
  * imprime en pantalla y la guarda en un buffer.
  */
 
+/* funcion que simula una entrada del teclado */
 void
-refresh_in(char *buffer,int *last)
+test_keys()
+{
+	test_buffer[++gl] = 'i';
+	test_buffer[++gl] = 'u';
+	test_buffer[++gl] = 'q';
+	test_buffer[++gl] = 'r';
+	test_buffer[++gl] = 'a';
+}/* funcion que simula una entrada del teclado */
+
+void
+getline(char *buffer,int *last)
 {
 	char c[1];
+	int timer=0;
 
-	if( gl >= 0 ) {
-		// la guarda e imprime
+	do {
+		/* cada 10000 iteraciones se ingresa una palabra */
+		timer++;
+		if( timer%100000 == 0 ) {
+			test_keys();
+		}
+		if( timer%1000000 == 0 ) {
+			test_buffer[++gl] = '\n';
+			timer = 0;
+		}
 
+		if( gl >= 0 ) {
 		/* chequea y lee en caso de haber una entrada pendiente */
-		read(KEYBOARD,&(c[0]),1);
+			read(KEYBOARD,&(c[0]),1);
 
-		putchar(c[0]);
-		buffer[++(*last)] = c[0];
-
-	}
+			putchar(c[0]);
+			buffer[++(*last)] = c[0];
+			//putchar(buffer[*last]);
+		}
+	} while( c[0] != '\n' );
 
 }
 
 void
 welcome()
 {
-	printf("Bienvenido a nuestro tpe\n");
-	printf("Minikernel v0.1\n");
+	printf("========================================================================\n");
+    printf("                      	Minikernel v0.1                                 \n");
+    printf("                                                                        \n");
+	printf("========================================================================\n");
+	printf("\n");
 	prompt();
 }
 
@@ -113,5 +145,6 @@ prompt()
 {
 	printf("\nbombau@minikernel: ");
 }
+
 
 

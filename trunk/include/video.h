@@ -22,6 +22,8 @@ void welcome();
 /* Imprime un string */
 void printf(char *string);
 
+void getline(char *buffer,int *last);
+
 void prompt(void);
 
 #endif
