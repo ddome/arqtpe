@@ -5,7 +5,7 @@
 
 /* Variable global de la posicion en pantalla */
 int screen_pos = 0;
-char * video = (char *) 0xb8000;
+
 
 /* Buffer de prueba en reemplazo del buffer del teclado */
 extern char test_buffer[];
@@ -36,24 +36,35 @@ void int_80w(FileDesc fd, const void * buff, int size)
 
 void int_80r(FileDesc fd, char * buff, int size)
 {
-	int i;
-
-
-	switch (fd)
+	int i = 0;
+	if (fd == KEYBOARD)
 	{
-		case KEYBOARD: break;
-		default: break;
+		_Cli();
+
+		
+		while( gl >= 0 && i< size ) {
+
+			buff[i] = test_buffer[gl];
+			i++;
+			gl--;
+		}
+
+		_Sti();
 	}
+	else if (fd == SCREENNL)
+	{
+		char * video;
+		video = (char *) 0xb8000; 
+		_Cli();
 
-	_Cli();
+		while( i< size ) {
 
-	i=0;
-	while( gl >= 0 && i< size ) {
-		buff[i] = test_buffer[gl];
-		i++;
-		gl--;
+			buff[i] = *(video + screen_pos + CANT_COLS *2);
+			i++;
+			
+		}
+
+		_Sti();
 	}
-
-	_Sti();
 
 }

@@ -32,6 +32,7 @@
 #define CANT_ROWS 25
 #define VID_CHAR 2
 #define SCREEN 1
+#define SCREENNL 2
 
 // defines sacados a partir de http://docs.hp.com/en/65/books/uidatt.htm
 #define WHITE_TXT 0x07	// Atributo de video. Letras blancas, fondo negro
