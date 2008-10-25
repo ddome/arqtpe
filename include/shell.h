@@ -3,4 +3,7 @@
 
 void shell(void);
 
+void bash( char *line  );
+int command( char *line );
+
 #endif
