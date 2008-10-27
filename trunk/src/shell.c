@@ -3,15 +3,17 @@
 #include "../include/defs.h"
 
 
+enum { NOTFOUND, VOID };
 
-/* Indica la posicion actual del cursor */
-extern screen_pos;
 
 int
 command(char *line )
 {
-	return 10;
+	if( line[0] == '\0' )
+		return VOID;
 
+
+	return NOTFOUND;
 }
 
 void
@@ -22,9 +24,12 @@ bash(char *line  )
 	fnumber = command(line);
 
 	switch(fnumber) {
-	default: printf("bash: ");
-			 printLine(line);
-			 printf(": command not found\n");
+	case VOID: 	break;
+
+
+	default: 	printf("bash: ");
+				printf(line);
+				printf(": command not found\n");
 	}
 
 
@@ -40,11 +45,10 @@ shell()
 	welcome();
 
 	while(1) {
-
-		getline(in_buffer);
+		prompt();
+		getline(in_buffer,MAX_CHARS);
 		// proceso el comando almacenado en in_buffer
 		bash(in_buffer);
-		prompt();
 	}
 
 

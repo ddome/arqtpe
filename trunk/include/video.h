@@ -25,12 +25,9 @@ void welcome();
 /* Imprime un string */
 void printf(char *string);
 
-/* Levanta una linea a buffer desde el teclado */
-void getline(char *buffer);
+/* Levanta una linea a buffer desde el teclado, con max de longitud maxima*/
+void getline(char *buffer, int max);
 
 void prompt(void);
-
-/* Imprime un string hasta llegar a un \n */
-void printLine(char *line);
 
 #endif
