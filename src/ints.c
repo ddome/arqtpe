@@ -1,16 +1,15 @@
 #include "../include/defs.h"
 #include "../include/kasm.h"
 #include "../include/ints.h"
+#include "../include/keyboard.h"
+#include "../include/buffer.h"
 
 
 /* Variable global de la posicion en pantalla */
 int screen_pos = 0;
 
-
-/* Buffer de prueba en reemplazo del buffer del teclado */
-extern char test_buffer[];
-extern int gl;
-/* */
+/* mapeo de los estados del teclado */
+int numlock=0,caps=0,scrolllock=0,shift=0;
 
 char format= WHITE_TXT;
 
@@ -41,12 +40,11 @@ void int_80r(FileDesc fd, char * buff, int size)
 	{
 		_Cli();
 
-		
-		while( gl >= 0 && i< size ) {
 
-			buff[i] = test_buffer[gl];
+		while( !BufferIsEmpty() && i< size ) {
+
+			buff[i] = GetFromBuffer() ;
 			i++;
-			gl--;
 		}
 
 		_Sti();
@@ -54,17 +52,65 @@ void int_80r(FileDesc fd, char * buff, int size)
 	else if (fd == SCREENNL)
 	{
 		char * video;
-		video = (char *) 0xb8000; 
+		video = (char *) 0xb8000;
 		_Cli();
 
 		while( i< size ) {
 
 			buff[i] = *(video + screen_pos + CANT_COLS *2);
 			i++;
-			
+
 		}
 
 		_Sti();
 	}
 
 }
+
+int
+int_09(unsigned char code)
+{
+	char lights=0;
+
+	/*Veo que teclas estan oprimidas y modifico las variables
+	 *globales. En caso de ser las teclas scrolllock,capslock
+	 *o numlock envio el char lights, con informacion
+	 *indicando que luces deben estar encendidas.
+	*/
+
+
+	if( code==LSHIFT || code==RSHIFT)
+		shift=1;
+	else if( code==(LSHIFT | MASK) || code==(RSHIFT | MASK) )
+		shift=0;
+
+	else if( code==CAPSLOCK )
+	{
+		caps=!caps;
+		lights|=1;
+		SetKBLights();
+	}
+	else if( code==NUMLOCK )
+	{
+		numlock==!numlock;
+		lights|=2;
+		SetKBLights();
+	}
+	else if( code==SCROLLLOCK )
+	{
+		scrolllock=!scrolllock;
+		lights|=4;
+		SetKBLights();
+	}
+
+
+	if( IS_MAKE_CODE(code) )
+		AddToBuffer(code);
+
+	return 0;
+}
+
+
+
+
+

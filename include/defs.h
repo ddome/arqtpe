@@ -40,9 +40,28 @@
 
 /*Ctes para teclado*/
 #define KEYBOARD 1
-#define MAX_CHARS 100
+#define MAX_CHARS 500
 #define EMPTY -1
 #define READ 1
+
+/*scancodes particulares*/
+#define ESC 0x01
+#define LSHIFT 0x2A
+#define RSHIFT 0x36
+#define CAPSLOCK 0x3A
+#define NUMLOCK 0x45
+#define SCROLLLOCK 0x46
+#define BACKSPACE 0x0E
+
+#define IS_MAKE_CODE(c) (c)<128
+#define IS_BREAK_CODE(c) (c)>=128
+
+/*Mascara para saber si el codigo es un break code
+ *breakcode=scancode|0x0080*/
+#define MASK 0x0080
+
+
+
 
 /* Ctes para PCI */
 typedef unsigned int UINT32;

@@ -2,22 +2,12 @@
 #include "../include/defs.h"
 #include "../include/ints.h"
 #include "../include/kasm.h"
+#include "../include/buffer.h"
 
 extern int screen_pos;
 
-
-
-/* Buffer de prueba en reemplazo del buffer del teclado */
-/* el buffer del teclado original tiene que ser una cola
- * ya que con este buffer se imprime ar revez.
- */
-char test_buffer[10];
-int gl=EMPTY;
-/* */
-
-
-
-int writeWrapper(const void * buff, int size)
+int
+writeWrapper(const void * buff, int size)
 {
 	//FileDesc fd;
 	char auxc = ' ';
@@ -32,7 +22,7 @@ int writeWrapper(const void * buff, int size)
 			write (SCREEN, &c, 1);
 		}
 		for(i = 0; i < CANT_COLS; i++)
-			write (SCREEN, &auxc, 1);
+			write (SCREEN, &auxc, 1); // cambie esto porque estaba escribiendo mierda cuando borrabas
 		screen_pos = CANT_COLS *(CANT_ROWS -1)*2;
 	}
 	for (i = 0; i < size; i++)
@@ -48,7 +38,7 @@ int writeWrapper(const void * buff, int size)
 		else if (((char*)buff)[i] == '\b')
 		{
 			screen_pos -= 2;
-			write (SCREEN,0,1);
+			write (SCREEN,&auxc,1);
 			screen_pos -= 2;
 		}
 		else
@@ -60,7 +50,8 @@ int writeWrapper(const void * buff, int size)
     return size;
 }
 
-void clear_screen()
+void
+clear_screen()
 {
 	char c = ' ';
 	unsigned int i=0;
@@ -86,21 +77,6 @@ getNLChar()
 	return c;
 }
 
-/* Funcion que chequea una entrada del teclado,
- * imprime en pantalla y la guarda en un buffer.
- */
-
-/* funcion que simula una entrada del teclado */
-void
-test_keys()
-{
-	test_buffer[++gl] = 'i';
-	test_buffer[++gl] = 'u';
-	test_buffer[++gl] = 'q';
-	test_buffer[++gl] = 'r';
-	test_buffer[++gl] = 'a';
-}/* funcion que simula una entrada del teclado */
-
 void
 getline(char *buffer)
 {
@@ -109,29 +85,26 @@ getline(char *buffer)
     int last = EMPTY;
 
     do {
-        /* cada 10000 iteraciones se ingresa una palabra */
-        timer++;
-        if( timer%100000 == 0 ) {
-            test_keys();
-        }
-        /* aca le da enter */
-        if( timer%1000000 == 0 ) {
-            test_buffer[++gl] = '\n';
-            timer = 0;
-        }
-
-        /* gl indica si hay caracteres entrantes */
-        if( gl >= 0 ) {
-        /* chequea y lee en caso de haber una entrada pendiente */
-            read(KEYBOARD,&(c[0]),1);
-
+    	/* CAMBIAR, no se puede acceder al teclado directamente */
+		if( !BufferIsEmpty() ) {
+		/* chequea y lee en caso de haber una entrada pendiente */
+			read(KEYBOARD,&(c[0]),1);
             buffer[++last] = c[0];
             putchar(buffer[last]);
         }
     } while( c[0] != '\n' );
 
-    buffer[++last] = '\0';
+	/* Completo el string */
+	buffer[++last] = '\0';
+}
 
+void
+printLine(char *line)
+{
+	while( *line != '\n' ) {
+		putchar(*line);
+		line++;
+	}
 }
 
 void
@@ -139,7 +112,7 @@ welcome()
 {
 	printf("========================================================================\n");
     printf("                      	Minikernel v0.1                                 \n");
-    printf("                Anda como el culo, pero anda...                         \n");
+    printf("                   BOMBAU ARREGLA EL TECLADO!!!                         \n");
 	printf("========================================================================\n");
 	printf("\n");
 	prompt();
@@ -157,7 +130,7 @@ printf(char *string)
 void
 prompt()
 {
-	printf("bombau@minikernel: ");
+	printf("prompt@minikernel: ");
 }
 
 

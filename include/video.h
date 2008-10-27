@@ -25,8 +25,12 @@ void welcome();
 /* Imprime un string */
 void printf(char *string);
 
+/* Levanta una linea a buffer desde el teclado */
 void getline(char *buffer);
 
 void prompt(void);
+
+/* Imprime un string hasta llegar a un \n */
+void printLine(char *line);
 
 #endif
