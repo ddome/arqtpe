@@ -1,3 +1,5 @@
+#ifndef BUFFER_H
+#define BUFFER_H
 
 #define MAX_CANT 40
 #define BUFFER_ARRAY_SIZE (MAX_CANT+1)
@@ -11,3 +13,5 @@ unsigned char GetFromBuffer(void);
 int BufferIsFull(void);
 
 int BufferIsEmpty(void);
+
+#endif

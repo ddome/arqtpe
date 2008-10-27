@@ -78,7 +78,7 @@ getNLChar()
 }
 
 void
-getline(char *buffer)
+getline(char *buffer, int max)
 {
     char c[1];
     int timer=0;
@@ -104,10 +104,10 @@ getline(char *buffer)
 					putchar(c[0]);
 			}
         }
-    } while( c[0] != '\n' );
+    } while( c[0] != '\n' && last < max-1 );
 
-	/* Completo el string */
-	buffer[++last] = '\0';
+	/* Completo el string y borro el \n */
+	buffer[last] = '\0';
 }
 
 void
@@ -122,12 +122,11 @@ printLine(char *line)
 void
 welcome()
 {
-	printf("========================================================================\n");
-    printf("                      	Minikernel v0.1                                 \n");
-    printf("                   BOMBAU ARREGLA EL TECLADO!!!                         \n");
-	printf("========================================================================\n");
+	printf("===============================================================================\n");
+    printf("                      	         Minikernel v0.6                               \n");
+    printf("                                  ITBA 27-09-08                                \n");
+	printf("===============================================================================\n");
 	printf("\n");
-	prompt();
 }
 
 void

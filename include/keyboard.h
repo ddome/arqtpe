@@ -1,3 +1,7 @@
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
+
+
 #define CANT_KEYS 104
 #define LANG_US 0
 #define LANG_LAT 1
@@ -26,3 +30,5 @@ char ToUpper(char c);
 char ToUpper(char letra);
 
 void SetKBLights(void);
+
+#endif
