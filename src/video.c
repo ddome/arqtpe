@@ -91,8 +91,8 @@ getline(char *buffer, int max)
 			read(KEYBOARD,&(c[0]),1);
 
 			/* Chequeo que al recibir un backspace no borre mas alla
-			 * del prompt y no borre del buffer de salida al caracter
-			 * borrado
+			 * del prompt y borre del buffer de salida al caracter
+			 * correspondiente
 			 */
 			if( c[0] == '\b' && last != EMPTY ) {
 				buffer[last] = ' ';
@@ -125,6 +125,19 @@ welcome()
 	printf("===============================================================================\n");
     printf("                      	         Minikernel v0.6                               \n");
     printf("                                  ITBA 27-09-08                                \n");
+	printf("===============================================================================\n");
+	printf("\n");
+}
+
+void
+help()
+{
+	printf("===============================================================================\n");
+	printf("                              Comandos disponibles                             \n");
+	printf("\n");
+	printf(" clear : limpia la pantalla \n");
+	printf(" help  : muestra un menu de ayuda \n");
+	printf("\n");
 	printf("===============================================================================\n");
 	printf("\n");
 }
