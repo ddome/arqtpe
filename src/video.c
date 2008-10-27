@@ -89,8 +89,20 @@ getline(char *buffer)
 		if( !BufferIsEmpty() ) {
 		/* chequea y lee en caso de haber una entrada pendiente */
 			read(KEYBOARD,&(c[0]),1);
-            buffer[++last] = c[0];
-            putchar(buffer[last]);
+
+			/* Chequeo que al recibir un backspace no borre mas alla
+			 * del prompt y no borre del buffer de salida al caracter
+			 * borrado
+			 */
+			if( c[0] == '\b' && last != EMPTY ) {
+				buffer[last] = ' ';
+				last--;
+				putchar(c[0]);
+			}
+			if( c[0] != '\b' ) {
+					buffer[++last] = c[0];
+					putchar(c[0]);
+			}
         }
     } while( c[0] != '\n' );
 
@@ -130,7 +142,7 @@ printf(char *string)
 void
 prompt()
 {
-	printf("prompt@minikernel: ");
+	printf(">: ");
 }
 
 
