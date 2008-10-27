@@ -28,10 +28,11 @@ kmain()
         int vendor = 0xffff;
 
 
-/* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
+/* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0 y IRQ1   */
 
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
         setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
+        setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand, ACS_INT, 0);
 
 /* Carga de IDTR    */
 
@@ -43,9 +44,9 @@ kmain()
 
 	_Cli();
 
-/* Habilito interrupcion de timer tick*/
+/* Habilito interrupcion de timer tick y el teclado */
 
-        _mascaraPIC1(0xFE);
+        _mascaraPIC1(0xFD);
         _mascaraPIC2(0xFF);
 
 	_Sti();

@@ -14,17 +14,6 @@ command(char *line )
 
 }
 
-
-void
-printline(char *line)
-{
-	while( *line != '\n' ) {
-		putchar(*line);
-		line++;
-	}
-}
-
-
 void
 bash(char *line  )
 {
@@ -34,17 +23,12 @@ bash(char *line  )
 
 	switch(fnumber) {
 	default: printf("bash: ");
-			 printline(line);
+			 printLine(line);
 			 printf(": command not found\n");
 	}
 
 
 }
-
-
-
-
-
 
 void
 shell()
@@ -58,10 +42,8 @@ shell()
 	while(1) {
 
 		getline(in_buffer);
-		bash(in_buffer);
-
 		// proceso el comando almacenado en in_buffer
-
+		bash(in_buffer);
 		prompt();
 	}
 

@@ -10,4 +10,6 @@ gcc -c -m32 ../src/pci.c -o pci.o -fno-builtin
 gcc -c -m32 ../src/video.c -o video.o -fno-builtin
 gcc -c -m32 ../src/shell.c -o shell.o -fno-builtin
 gcc -c -m32 ../src/video.c -o video.o -fno-builtin
-ld -T ../src/link.ld -melf_i386 -o kernel.bin kernel.o kstart.o libc.o libasm.o ints.o pci.o shell.o video.o
+gcc -c -m32 ../src/keyboard.c -o keyboard.o -fno-builtin
+gcc -c -m32 ../src/buffer.c -o buffer.o -fno-builtin
+ld -T ../src/link.ld -melf_i386 -o kernel.bin kernel.o kstart.o libc.o libasm.o ints.o pci.o shell.o video.o buffer.o keyboard.o

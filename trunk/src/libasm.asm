@@ -1,5 +1,5 @@
 GLOBAL  _read_msw,_lidt
-GLOBAL  _int_08_hand, _int_80_hand, write, read
+GLOBAL  _int_08_hand, _int_80_hand, write, read, _int_09_hand
 GLOBAL myin, myout
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
@@ -7,6 +7,7 @@ GLOBAL  _debug
 EXTERN  int_08
 EXTERN  int_80w
 EXTERN  int_80r
+EXTERN  int_09
 
 
 SECTION .text
@@ -182,3 +183,58 @@ vuelve:	mov     ax, 1
 	pop	ax
 	pop     bp
         retn
+
+
+; Handler del teclado
+_int_09_hand:			; Handler de INT 9 ( Teclado ).
+	cli			; Deshabilito las interrupciones
+	push    ds
+        push    es
+        pusha  			; Armo stack frame.
+
+	mov     ax, 10h		; Carga en DS y ES con el valor del selector.
+        mov     ds, ax		; a utilizar.
+        mov     es, ax
+
+	mov eax,0		; Lee del teclado el scancode y se lo pasa
+	in al,60h		; a la funcion int_09 a travez del stack.
+	push eax
+
+	call int_09
+
+	mov	al,20h		; Envio de EOI generico al PIC
+	out	20h,al
+	pop eax
+
+	popa			; Armo stack frame.
+        pop     es
+        pop     ds
+	sti			; Vuelvo a habilitar las interrupciones
+        iret
+
+
+_Lights:
+    push	ebp
+	mov		ebp, esp
+	mov		al,[EBP+8]
+	mov		ah,al
+
+    cli                             ; Deshabilito interrupciones
+    mov     al,0edh                 ; Cargo el Set/Reset Mode Indicator
+    out     60h,al
+
+l1: in      al,60h                  ; Espero el ACK del 8042
+    cmp     al,0fah
+    jnz     l1
+    mov     al,ah                   ; Mando las nuevas luces
+    out     60h,al
+l2: in      al,60h                  ; Espero el ACK del 8042
+    cmp     al,0fah
+    jnz     l2
+    sti                             ; habilito interrupciones de nuevo
+	pop		ebp
+    ret
+
+
+
+
