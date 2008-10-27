@@ -55,13 +55,13 @@ bash(char *line  )
 	case VOID: 	break;
 	case CLEAR: clear_screen();
 				break;
-	case HELP: help();
+	case HELP:  help();
+				break;
 
 	default: 	printf("bash: ");
 				printf(line);
 				printf(": command not found -- type help\n");
 	}
-
 
 }
 
