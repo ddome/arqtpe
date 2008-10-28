@@ -40,7 +40,7 @@
 
 /*Ctes para teclado*/
 #define KEYBOARD 1
-#define MAX_CHARS 500
+#define MAX_CHARS 200
 #define EMPTY -1
 #define READ 1
 

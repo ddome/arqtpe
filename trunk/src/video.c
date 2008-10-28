@@ -56,6 +56,8 @@ clear_screen()
 	char c = ' ';
 	unsigned int i=0;
 
+	screen_pos = 0;
+
 	while(i < (80*25)){
 		i++;
 		putchar(c);
@@ -99,14 +101,21 @@ getline(char *buffer, int max)
 				last--;
 				putchar(c[0]);
 			}
-			if( c[0] != '\b' ) {
+			if( c[0] != '\b' && c[0] != '\n' ) {
+				if( last < max - 1  ) {
 					buffer[++last] = c[0];
 					putchar(c[0]);
+				}
+			}
+			/* el cambio de linea no lo guardo pero si lo imprimo */
+			if( c[0] == '\n' ) {
+				putchar(c[0]);
+				++last;
 			}
         }
-    } while( c[0] != '\n' && last < max-1 );
+    } while( c[0] != '\n'  );
 
-	/* Completo el string y borro el \n */
+	/* Completo el string  */
 	buffer[last] = '\0';
 }
 
