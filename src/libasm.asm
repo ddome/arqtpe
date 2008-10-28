@@ -238,3 +238,8 @@ l2: in      al,60h                  ; Espero el ACK del 8042
 
 
 
+
+
+
+
+

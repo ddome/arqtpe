@@ -27,4 +27,3 @@ void		myread();
 void		_debug (void);
 
 void        _int_09_hand(void);
-
