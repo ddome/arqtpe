@@ -1,6 +1,7 @@
 #include "../include/shell.h"
 #include "../include/video.h"
 #include "../include/defs.h"
+#include "../include/pci.h"
 
 
 enum { VOID=-1, CLEAR, KEYSLA, KEYSUS, LISTPCI, HELP, NOTFOUND };
@@ -57,6 +58,8 @@ bash(char *line  )
 				break;
 	case HELP:  help();
 				break;
+	case LISTPCI:	lspcib(0,0,0);
+					break;
 
 	default: 	printf("bash: ");
 				printf(line);
