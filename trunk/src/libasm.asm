@@ -278,6 +278,7 @@ l2: in      al,60h                  ; Espero el ACK del 8042
 _MoveCursor:
 	push ebp
     mov  ebp, esp
+    pusha
 
 	mov eax, [ebp+8]
 
@@ -296,14 +297,16 @@ _MoveCursor:
 	inc edx
 	out dx, al
 
+	popa
 	mov esp,ebp
 	pop ebp
 	ret
 
 
 _DelCursor:
-     push     ax
-     push     dx
+	 push ebp
+	 mov ebp,esp
+
      pusha
      mov	 bx, 0xF00
      mov     dx, 0x3D4
@@ -314,14 +317,16 @@ _DelCursor:
      mov     ah, bl
      out     dx, ax
      popa
-     pop     dx
-     pop     ax
+
+     mov esp,ebp
+     pop ebp
      ret
 
 
 _RestoreCursor:
-     push     ax
-     push     dx
+	 push ebp
+	 mov ebp,esp
+
      pusha
      mov	 bx, 0xFF0
      mov     dx, 0x3D4
@@ -332,8 +337,9 @@ _RestoreCursor:
      mov     ah, bl
      out     dx, ax
      popa
-     pop     dx
-     pop     ax
+
+     mov esp,ebp
+     pop ebp
      ret
 
 
