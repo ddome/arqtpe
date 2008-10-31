@@ -9,12 +9,6 @@
 DESCR_INT idt[0x81];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 
-int tickpos=640;
-
-void int_08() {
-
-}
-
 /**********************************************
 kmain()
 Punto de entrada de cóo C.
@@ -46,10 +40,11 @@ kmain()
 
 /* Habilito interrupcion de timer tick y el teclado */
 
-        _mascaraPIC1(0xFD);
+        _mascaraPIC1(0xFC);
         _mascaraPIC2(0xFF);
 
 	_Sti();
+
 
 	/* Se inicia el shell */
 	shell();

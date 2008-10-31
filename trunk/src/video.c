@@ -22,7 +22,7 @@ writeWrapper(const void * buff, int size)
 			write (SCREEN, &c, 1);
 		}
 		for(i = 0; i < CANT_COLS; i++)
-			write (SCREEN, &auxc, 1); // cambie esto porque estaba escribiendo mierda cuando borrabas
+			write (SCREEN, &auxc, 1);
 		screen_pos = CANT_COLS *(CANT_ROWS -1)*2;
 	}
 	for (i = 0; i < size; i++)
@@ -47,6 +47,9 @@ writeWrapper(const void * buff, int size)
 		}
 	}
 
+	/* Actualizo la posicion del cursor */
+	_MoveCursor(screen_pos/2);
+
     return size;
 }
 
@@ -63,6 +66,7 @@ clear_screen()
 		putchar(c);
 	};
 	screen_pos = 0;
+	_MoveCursor(0);
 }
 
 void
@@ -141,10 +145,12 @@ welcome()
 void
 help()
 {
+
 	printf("===============================================================================\n");
 	printf("                              Comandos disponibles                             \n");
 	printf("\n");
 	printf(" clear : limpia la pantalla \n");
+	printf(" lspci : lista los dispositivos pci disponibles \n");
 	printf(" help  : muestra un menu de ayuda \n");
 	printf("\n");
 	printf("===============================================================================\n");
@@ -166,5 +172,10 @@ prompt()
 	printf(">: ");
 }
 
-
+void
+set_screen(void)
+{
+	screen_pos = 0;
+	_MoveCursor(0);
+}
 

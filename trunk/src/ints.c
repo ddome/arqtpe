@@ -11,6 +11,22 @@ int screen_pos = 0;
 /* mapeo de los estados del teclado */
 int numlock=0,caps=0,scrolllock=0,shift=0;
 
+int counter=0;
+
+void
+int_08()
+{
+	counter++;
+	if(counter == DELAY/2)
+		_DelCursor();
+	if(counter == DELAY) {
+		_RestoreCursor();
+		counter = 0;
+	}
+}
+
+
+
 int
 int_09(unsigned char code)
 {
@@ -21,7 +37,6 @@ int_09(unsigned char code)
 	 *o numlock envio el char lights, con informacion
 	 *indicando que luces deben estar encendidas.
 	*/
-
 
 	if( code==LSHIFT || code==RSHIFT)
 		shift=1;

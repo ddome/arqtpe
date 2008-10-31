@@ -3,6 +3,9 @@ GLOBAL  _int_08_hand, _int_80_hand, write, read, _int_09_hand
 GLOBAL myin, myout, myinw, myoutw, myinl, myoutl
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
+GLOBAL _MoveCursor
+GLOBAL _DelCursor
+GLOBAL _RestoreCursor
 
 EXTERN  int_08
 EXTERN  int_80w
@@ -167,7 +170,7 @@ myin:
 	mov [ECX], AL
 	pop	EBP
 	ret
-	
+
 myoutw:
 	push EBP
 	mov EBP, ESP
@@ -272,8 +275,66 @@ l2: in      al,60h                  ; Espero el ACK del 8042
 	pop		ebp
     ret
 
+_MoveCursor:
+	push ebp
+    mov  ebp, esp
+
+	mov eax, [ebp+8]
+
+	mov edx, 0x3D4
+	mov ecx, eax
+	mov al, 0x0F
+	out dx, al
+	mov eax, ecx
+	inc edx
+	out dx, al
+	mov al, 0x0E
+	dec edx
+	out dx, al
+	mov eax, ecx
+	mov al, ah
+	inc edx
+	out dx, al
+
+	mov esp,ebp
+	pop ebp
+	ret
 
 
+_DelCursor:
+     push     ax
+     push     dx
+     pusha
+     mov	 bx, 0xF00
+     mov     dx, 0x3D4
+     mov     al, 0x0A
+     mov     ah, bh
+     out     dx, ax
+     inc     ax
+     mov     ah, bl
+     out     dx, ax
+     popa
+     pop     dx
+     pop     ax
+     ret
+
+
+_RestoreCursor:
+     push     ax
+     push     dx
+     pusha
+     mov	 bx, 0xFF0
+     mov     dx, 0x3D4
+     mov     al, 0x0A
+     mov     ah, bh
+     out     dx, ax
+     inc     ax
+     mov     ah, bl
+     out     dx, ax
+     popa
+     pop     dx
+     pop     ax
+     ret
 
 
 
