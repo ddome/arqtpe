@@ -27,3 +27,8 @@ void		myread();
 void		_debug (void);
 
 void        _int_09_hand(void);
+
+void 		_MoveCursor(int pos); /* charxchar y */
+
+void		_DelCursor(void);
+void		_RestoreCursor(void);

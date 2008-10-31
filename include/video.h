@@ -30,4 +30,6 @@ void getline(char *buffer, int max);
 
 void prompt(void);
 
+void set_screen(void);
+
 #endif

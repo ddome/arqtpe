@@ -14,10 +14,10 @@ static unsigned char tecladoLAT[][CANT_KEYS]
  	{0,'ª','!','"','·','$','%','&','/','(',')','=','?','¿',0}
 };*/
 
-static unsigned char tecladoUS [][CANT_KEYS] = 
-{ 
+static unsigned char tecladoUS [][CANT_KEYS] =
+{
 	{0, ESC, '1', '2', '3', '4', '5', '6',
- '7', '8', '9', '0', '-', '=', '\b',	'\t', 
+ '7', '8', '9', '0', '-', '=', '\b',	'\t',
  'q', 'w', 'e', 'r',	't', 'y', 'u', 'i',
  'o', 'p', '[', ']',	'\n', 0, 'a', 's',
  'd', 'f', 'g', 'h',	'j', 'k', 'l', ';',
@@ -28,7 +28,7 @@ static unsigned char tecladoUS [][CANT_KEYS] =
  UPKEY, 0, 0, 0, 0, 0, 0, 0,
  DOWNKEY, 0, 0,0
 	}, /* Shifteados */
-		
+
  {0, 0, '!', '@', '#', '$', '%', '^',
  '&', '*', '(', ')',	'_', '+', '\b', '\t',
  'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I',
@@ -41,7 +41,7 @@ static unsigned char tecladoUS [][CANT_KEYS] =
  UPKEY, 0, 0, 0, 0, 0, 0, 0,
  DOWNKEY, 0, 0, 0
  }
-}; 
+};
 
 char
 ToUpper(char c)
@@ -59,16 +59,16 @@ unsigned char
 PutInBuffer(unsigned char code)
 {
 	unsigned char ascii;
-	
+
 	ascii=tecladoUS[shift][code];
-	
+
 	if( caps && !shift && IsLetter(ascii) )
 		ascii=ToUpper(ascii);
 	else if( caps && shift && IsLetter(ascii) )
 		ascii=ToLower(ascii);
-			
+
 	AddToBuffer(ascii);
-	
+
 	return ascii;
 }
 

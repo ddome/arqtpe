@@ -2,7 +2,7 @@
 #include "../include/video.h"
 #include "../include/defs.h"
 #include "../include/pci.h"
-
+#include "../include/kasm.h"
 
 enum { VOID=-1, CLEAR, KEYSLA, KEYSUS, LISTPCI, HELP, NOTFOUND };
 #define NCOM 5
@@ -73,6 +73,8 @@ shell()
 {
 	/* Buffer de almacenamiento de caracteres */
 	char in_buffer[MAX_CHARS];
+
+	set_screen();
 
 	clear_screen();
 	welcome();
