@@ -58,7 +58,7 @@ bash(char *line  )
 				break;
 	case HELP:  help();
 				break;
-	case LISTPCI:	lspcib(0,0,0);
+	case LISTPCI:	lspci();
 					break;
 
 	default: 	printf("bash: ");
