@@ -8,5 +8,6 @@ unsigned short lspci (void);
 
 unsigned long armaDato (unsigned int bus, unsigned int devfn, unsigned int func, unsigned int reg);
 int pcibios_read (unsigned long dato, unsigned int *value);
+int usb_read (unsigned long dato, unsigned short *value);
 
 #endif /*PCI_H_*/
