@@ -1,11 +1,17 @@
 #include "../include/pci.h"
 #include "../include/pcilist.h"
+#include "../include/pcidevlist.h"
 
 #define  PCIBIOS_SUCCESSFUL                0x00
 
 
 extern PCI_VENTABLE	PciVenTable [];
 extern PCI_DEVTABLE	PciDevTable [];
+
+void auxdbg ()
+{
+	return;
+}
 
 int pcibios_read (unsigned long dato, unsigned int *value)
 {
@@ -27,6 +33,8 @@ unsigned short lspci (void)
 	unsigned long dato;
 	int j, flag = 0;
 	unsigned short tmp = 0;
+	unsigned short usb= 0;
+	int bar [6];
 	
 	char aux[7] = {'0'};
 	char aux2[7] = {'0'};
@@ -128,8 +136,29 @@ unsigned short lspci (void)
 					while (i++ < 6)
 						aux2[i] = '0';
 					aux2[6] = 0;
-				}
 					
+					auxdbg ();
+					int kregs = 0;
+					int i = 0;
+					for (kregs = 0x10; kregs <= 0x24; kregs+= 0x4)
+						{
+							
+							dato = armaDato (bus, devfn, func, kregs);
+							pcibios_read(dato, &l);
+							/* some broken boards return 0 if a slot is empty: */
+							if (l == 0xffffffff || l == 0x00000000) {
+								hdr_type = 0;
+								//printf("SI\n");
+								bar[i++] = l;
+								continue;
+							}
+							bar[i++] = l;
+										
+						}
+					usb = 0;
+					usb_read (2, &usb);
+				}
+				
 				
 					
 
@@ -141,8 +170,28 @@ unsigned short lspci (void)
 unsigned long armaDato (unsigned int bus, unsigned int devfn, unsigned int func, unsigned int reg)
 {
 	unsigned long dato = 0;
-	dato = ((unsigned long) 0x80000000 | (bus << 16) | (devfn << 11) | (func << 8) | reg);
+	dato = ((unsigned long) 0x80000000 | (bus << 16) | (devfn << 11) | (func << 8) | (reg));
 	return dato;
 	
 	
+}
+
+int usb_read (unsigned long dato, unsigned short *value)
+{
+	_Cli();
+	myoutw(0xc021, 0x0);
+	
+    myout(0xc021, 0x80);
+    myout(0xc022, 0x06);
+    myout(0xc023, 0x00);
+    myout(0xc024, 0x01);
+    myout(0xc025, 0x00);
+    myout(0xc026, 0x00);
+    myout(0xc027, 0x12);
+    myout(0xc028, 0x00);
+    _Sti();
+    _Cli();
+    myin(0xc021, value);
+    _Sti();
+    return PCIBIOS_SUCCESSFUL;
 }
