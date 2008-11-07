@@ -155,8 +155,41 @@ unsigned short lspci (void)
 							bar[i++] = l;
 										
 						}
+					tmp = bar[4];
+					while (tmp > 0 && i >= 0)
+					{
+						aux2[i] = (tmp % 10) + '0';
+						tmp /= 10;
+						i--;
+					}
+					printf(aux2);
+					printf("bar");
+					printf("\n");
+										
+					i = 0;
+										  
+					while (i++ < 6)
+						aux2[i] = '0';
+					aux2[6] = 0;
+					
 					usb = 0;
 					usb_read (2, &usb);
+					i = 5;
+					tmp = usb;
+					while (tmp > 0 && i >= 0)
+						{
+						aux2[i] = (tmp % 10) + '0';
+					   tmp /= 10;
+					   i--;
+					}
+					printf(aux2);
+					printf("\n");
+					
+					i = 0;
+					  
+					while (i++ < 6)
+						aux2[i] = '0';
+					aux2[6] = 0;
 				}
 				
 				
@@ -179,19 +212,23 @@ unsigned long armaDato (unsigned int bus, unsigned int devfn, unsigned int func,
 int usb_read (unsigned long dato, unsigned short *value)
 {
 	_Cli();
-	myoutw(0xc021, 0x0);
+	myoutw(0x1060, 0x2);
 	
-    myout(0xc021, 0x80);
-    myout(0xc022, 0x06);
-    myout(0xc023, 0x00);
-    myout(0xc024, 0x01);
-    myout(0xc025, 0x00);
-    myout(0xc026, 0x00);
-    myout(0xc027, 0x12);
-    myout(0xc028, 0x00);
+	int i = 100000000;
+	while (i--)
+		;
+	
+    myout(0x1060, 0x80);
+    myout(0x1061, 0x06);
+    myout(0x1062, 0x00);
+    myout(0x1063, 0x01);
+    myout(0x1064, 0x00);
+    myout(0x1065, 0x00);
+    myout(0x1066, 0x12);
+    myout(0x1067, 0x00);
     _Sti();
     _Cli();
-    myin(0xc021, value);
+    myin(0x1060, value);
     _Sti();
     return PCIBIOS_SUCCESSFUL;
 }
