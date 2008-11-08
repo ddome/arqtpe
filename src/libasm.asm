@@ -1,5 +1,5 @@
 GLOBAL  _read_msw,_lidt
-GLOBAL  _int_08_hand, _int_80_hand, write, read, _int_09_hand
+GLOBAL  _int_08_hand, _int_80_hand, write, read, _int_09_hand_US,_int_09_hand_LAT
 GLOBAL myin, myout, myinw, myoutw, myinl, myoutl
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
@@ -10,8 +10,8 @@ GLOBAL _RestoreCursor
 EXTERN  int_08
 EXTERN  int_80w
 EXTERN  int_80r
-EXTERN  int_09
-
+EXTERN  int_09_US
+EXTERN  int_09_LAT
 
 SECTION .text
 
@@ -225,8 +225,8 @@ vuelve:	mov     ax, 1
         retn
 
 
-; Handler del teclado
-_int_09_hand:			; Handler de INT 9 ( Teclado ).
+; Handler del teclado LAT
+_int_09_hand_LAT:			; Handler de INT 9 ( Teclado ).
 	cli			; Deshabilito las interrupciones
 	push    ds
         push    es
@@ -240,7 +240,34 @@ _int_09_hand:			; Handler de INT 9 ( Teclado ).
 	in al,60h		; a la funcion int_09 a travez del stack.
 	push eax
 
-	call int_09
+	call int_09_LAT
+
+	mov	al,20h		; Envio de EOI generico al PIC
+	out	20h,al
+	pop eax
+
+	popa			; Armo stack frame.
+        pop     es
+        pop     ds
+	sti			; Vuelvo a habilitar las interrupciones
+        iret
+
+; Handler del teclado US
+_int_09_hand_US:			; Handler de INT 9 ( Teclado ).
+	cli			; Deshabilito las interrupciones
+	push    ds
+        push    es
+        pusha  			; Armo stack frame.
+
+	mov     ax, 10h		; Carga en DS y ES con el valor del selector.
+        mov     ds, ax		; a utilizar.
+        mov     es, ax
+
+	mov eax,0		; Lee del teclado el scancode y se lo pasa
+	in al,60h		; a la funcion int_09 a travez del stack.
+	push eax
+
+	call int_09_US
 
 	mov	al,20h		; Envio de EOI generico al PIC
 	out	20h,al

@@ -51,16 +51,20 @@ bash(char *line  )
 	int fnumber;
 
 	fnumber = command(line);
-
-	switch(fnumber) {
-	case VOID: 	break;
+	switch(fnumber)
+	{
 	case CLEAR: clear_screen();
 				break;
 	case HELP:  help();
 				break;
 	case LISTPCI:	lspci();
 					break;
-
+	case KEYSLA: loadkeysla();
+		      printf("Mapeo LAT seteado correctamente.\n");
+		      break;
+	case KEYSUS: loadkeysus();
+		      printf("Mapeo US seteado correctamente.\n");
+		      break;
 	default: 	printf("bash: ");
 				printf(line);
 				printf(": command not found -- type help\n");

@@ -33,7 +33,7 @@
 #define VID_CHAR 2
 #define SCREEN 1
 #define SCREENNL 2
-#define DELAY 100 // delay del parpadeo del cursor
+#define DELAY 50 // delay del parpadeo del cursor
 
 // defines sacados a partir de http://docs.hp.com/en/65/books/uidatt.htm
 #define WHITE_TXT 0x07	// Atributo de video. Letras blancas, fondo negro
@@ -62,7 +62,7 @@
 #define MASK 0x0080
 
 
-
+#define MAX_CANT 100
 
 /* Ctes para PCI */
 typedef unsigned int UINT32;

@@ -1,15 +1,16 @@
 #include "../include/defs.h"
 #include "../include/kasm.h"
 #include "../include/ints.h"
-#include "../include/keyboard.h"
 #include "../include/buffer.h"
 
-
+#define CANT_KEYS 104
+#define ALTGR 0x38
+#define IS_NUMPAD_KEY(c) ((c)>=0x47 && (c)<=0x53)
 /* Variable global de la posicion en pantalla */
 int screen_pos = 0;
 
 /* mapeo de los estados del teclado */
-int numlock=0,caps=0,scrolllock=0,shift=0;
+int numlock=0,caps=0,scrolllock=0,shift=0,altgr=0;
 
 int counter=0;
 
@@ -28,45 +29,64 @@ int_08()
 
 
 int
-int_09(unsigned char code)
+int_09_US(unsigned char code)
 {
-	char lights=0;
-
 	/*Veo que teclas estan oprimidas y modifico las variables
-	 *globales. En caso de ser las teclas scrolllock,capslock
-	 *o numlock envio el char lights, con informacion
-	 *indicando que luces deben estar encendidas.
-	*/
-
-	if( code==LSHIFT || code==RSHIFT)
-		shift=1;
-	else if( code==(LSHIFT | MASK) || code==(RSHIFT | MASK) )
-		shift=0;
-
-	else if( code==CAPSLOCK )
-	{
-		caps=!caps;
-		lights|=1;
-		SetKBLights();
-	}
-	else if( code==NUMLOCK )
-	{
-		numlock==!numlock;
-		lights|=2;
-		SetKBLights();
-	}
-	else if( code==SCROLLLOCK )
-	{
-		scrolllock=!scrolllock;
-		lights|=4;
-		SetKBLights();
-	}
+		 *globales, en caso de ser las teclas scrolllock,capslock
+		 *o numlock */
+	    char ascii;
+	    if( code==LSHIFT || code==RSHIFT)
+			shift=1;
+		else if( code==(LSHIFT | MASK) || code==(RSHIFT | MASK) )
+			shift=0;
+		else if( code==CAPSLOCK )
+			caps=!caps;
+		else if( code==NUMLOCK )
+			numlock=!numlock;
+		else if( code==SCROLLLOCK )
+			scrolllock=!scrolllock;
+	        else if( IS_NUMPAD_KEY(code) && !numlock)
+	            return 0;
+		else
+		{
+			if( IS_MAKE_CODE(code) && code<=CANT_KEYS)
+			{
+			    ascii=ToAsciiUS(code);
+			    AddToBuffer(ascii);
+			}
+		}
+		return 0;
+}
 
 
-	if( IS_MAKE_CODE(code) )
-		PutInBuffer(code);
-
-	return 0;
+int
+int_09_LAT(unsigned char code)
+{
+	/*Veo que teclas estan oprimidas y modifico las variables
+		 *globales, en caso de ser las teclas scrolllock,capslock
+		 *o numlock */
+	   char ascii;
+	    if( code==LSHIFT || code==RSHIFT)
+			shift=1;
+		else if( code==(LSHIFT | MASK) || code==(RSHIFT | MASK) )
+			shift=0;
+		else if( code==CAPSLOCK )
+			caps=!caps;
+		else if( code==NUMLOCK )
+			numlock=!numlock;
+		else if( code==SCROLLLOCK )
+			scrolllock=!scrolllock;
+	        else if( IS_NUMPAD_KEY(code) && !numlock)
+	            return 0;
+		else
+		{		
+			if( IS_MAKE_CODE(code) && code<=CANT_KEYS)
+			{
+			    ascii=ToAsciiLAT(code);
+			    AddToBuffer(ascii);
+			}
+		}
+		return 0;
 }
 
 void
