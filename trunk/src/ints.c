@@ -6,6 +6,7 @@
 #define CANT_KEYS 104
 #define ALTGR 0x38
 #define IS_NUMPAD_KEY(c) ((c)>=0x47 && (c)<=0x53)
+#define IS_VALID_ASCII(c) (c)!=0
 /* Variable global de la posicion en pantalla */
 int screen_pos = 0;
 
@@ -52,7 +53,8 @@ int_09_US(unsigned char code)
 			if( IS_MAKE_CODE(code) && code<=CANT_KEYS)
 			{
 			    ascii=ToAsciiUS(code);
-			    AddToBuffer(ascii);
+			    if(IS_VALID_ASCII(ascii))
+			        AddToBuffer(ascii);
 			}
 		}
 		return 0;
@@ -83,7 +85,8 @@ int_09_LAT(unsigned char code)
 			if( IS_MAKE_CODE(code) && code<=CANT_KEYS)
 			{
 			    ascii=ToAsciiLAT(code);
-			    AddToBuffer(ascii);
+			    if(IS_VALID_ASCII(ascii))
+			        AddToBuffer(ascii);
 			}
 		}
 		return 0;
