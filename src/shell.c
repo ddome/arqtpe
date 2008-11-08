@@ -60,11 +60,9 @@ bash(char *line  )
 	case LISTPCI:	lspci();
 					break;
 	case KEYSLA: loadkeysla();
-		      printf("Mapeo LAT seteado correctamente.\n");
-		      break;
+				 break;
 	case KEYSUS: loadkeysus();
-		      printf("Mapeo US seteado correctamente.\n");
-		      break;
+		         break;
 	default: 	printf("bash: ");
 				printf(line);
 				printf(": command not found -- type help\n");

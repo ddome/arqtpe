@@ -62,7 +62,7 @@
 #define MAX_ACCENT 5
 
 #define IsLetter(c) ( ( (c)>='a' && (c)<='z' ) || ((c)>='A' && (c)<='Z') )?1:0
-#define IS_VALID_ASCII(c) (c)!=0
+
 #define ES_VOCAL_MIN(c) ( (c)=='a'||(c)=='e'||(c)=='i'||(c)=='o'||(c)=='u' )
 
 
@@ -164,27 +164,29 @@ IsAccentCode(char code)
 char
 ToAsciiLAT(char code)
 {
-        char ascii;
-        IsAccentCode(code);
-
-        if( accent==0 && altgr==0 )
-        {
-            	ascii=tecladoLAT[shift][code];
-            	if( caps && !shift && IsLetter(ascii) )
-                	ascii=ToUpper(ascii);
-            	else if( caps && shift && IsLetter(ascii) )
-                	ascii=ToLower(ascii);
-        }
-	else if( accent==0 && altgr!=0 )
+        char ascii=0;
+        if(!IsAccentCode(code))
 	{
-		ascii=tecladoLAT[2][code];
-	}
-        else
-        {
-            ascii=tecladoLAT[shift][code];
-            if( (!caps && !shift) || (caps && shift) && ES_VOCAL_MIN(ascii) )
-                ascii=GetAccent(ascii,accent);
-        }
 
+ 	       if( accent==0 && altgr==0 )
+        	{
+            		ascii=tecladoLAT[shift][code];
+            		if( caps && !shift && IsLetter(ascii) )
+                		ascii=ToUpper(ascii);
+            		else if( caps && shift && IsLetter(ascii) )
+                		ascii=ToLower(ascii);
+        	}
+		else if( accent==0 && altgr!=0 )
+		{
+			ascii=tecladoLAT[2][code];
+		}
+        	else
+        	{
+            		ascii=tecladoLAT[shift][code];
+            		if( (!caps && !shift) || (caps && shift) && ES_VOCAL_MIN(ascii) )
+                		ascii=GetAccent(ascii,accent);
+			accent=0;
+        	}
+	}
         return ascii;
 }
