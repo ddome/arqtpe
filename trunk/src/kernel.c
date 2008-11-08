@@ -26,7 +26,9 @@ kmain()
 
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
         setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
-        setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand, ACS_INT, 0);
+
+        /* Por default el teclado esta en latino */
+        setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand_US,ACS_INT, 0);
 
 /* Carga de IDTR    */
 
@@ -50,4 +52,16 @@ kmain()
 	shell();
 
 
+}
+
+void
+loadkeysla(void)
+{
+	setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand_LAT,ACS_INT, 0);
+}
+
+void
+loadkeysus(void)
+{
+	setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand_US,ACS_INT, 0);
 }

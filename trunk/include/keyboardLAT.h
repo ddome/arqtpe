@@ -23,12 +23,6 @@
  *breakcode=scancode|0x0080*/
 #define MASK 0x0080
 
-unsigned char PutInBuffer(unsigned char code);
-
-char ToUpper(char c);
-
-char ToUpper(char letra);
-
-void SetKBLights(void);
+char ToAsciiLAT(char code);
 
 #endif

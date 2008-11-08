@@ -1,4 +1,5 @@
 #include"../include/buffer.h"
+#include "../include/defs.h"
 
 static unsigned char queue[MAX_CANT+1];
 static int head;

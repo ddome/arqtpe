@@ -200,7 +200,13 @@ PCI_VENTABLE PciVenTable [] =
 	{ 0x10C4, "wim", "Award Software Int'l Inc." } ,
 	{ 0x10C5, "Xerox", "Xerox Corporation" } ,
 	{ 0x10C6, "Rambus", "Rambus Inc." } ,
-	{ 0x10C8, "Neomagic", "Neomagic Corporation" } ,
+	{ 0, "", "" }
+} ;
+
+
+PCI_VENTABLE PciVenTable2 [] =
+{
+/*	{ 0x10C8, "Neomagic", "Neomagic Corporation" } ,
 	{ 0x10C9, "Dataexpert", "Dataexpert Corporation" } ,
 	{ 0x10CA, "Fujitsu", "Fujitsu Siemens" } ,
 	{ 0x10CB, "Omron", "Omron Corporation" } ,
@@ -1512,7 +1518,7 @@ PCI_VENTABLE PciVenTable [] =
 	{ 0xECC0, "Echo", "Echo Digital Audio Corporation" } ,
 	{ 0xEDD8, "ARK Logic", "ARK Logic, Inc" } ,
 	{ 0xF5F5, "", "F5 Networks Inc." } ,
-	{ 0xFA57, "Interagon", "Interagon AS" } ,
+	{ 0xFA57, "Interagon", "Interagon AS" } , */
 	{ 0, "", "" }
 } ;
 

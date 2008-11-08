@@ -1,7 +1,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-#define MAX_CANT 40
+#define MAlsX_CANT 40
 #define BUFFER_ARRAY_SIZE (MAX_CANT+1)
 #define EOF -1
 #define BUFFER_FULL -2
