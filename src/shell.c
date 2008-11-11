@@ -30,7 +30,7 @@ strcmp(char* s1, char* s2)
 int
 command(char *line )
 {
-	char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "help" };
+	char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?" };
 
 
 	if( line[0] == '\0' )
@@ -65,7 +65,7 @@ bash(char *line  )
 		         break;
 	default: 	printf("bash: ");
 				printf(line);
-				printf(": command not found -- type help\n");
+				printf(": command not found -- Try ? for help\n");
 	}
 
 }

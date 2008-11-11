@@ -1,3 +1,11 @@
+/***********************************************************************************
+ * Buffer.h
+ *
+ * Cola utilizada por el driver controlador del teclado, para almacenar los asciis
+ * que le llegan a traves de scandcodes por el teclado.
+ *
+ ***********************************************************************************/
+
 #ifndef BUFFER_H
 #define BUFFER_H
 

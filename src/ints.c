@@ -7,16 +7,17 @@
 #define ALTGR 0x38
 #define IS_NUMPAD_KEY(c) ((c)>=0x47 && (c)<=0x53)
 #define IS_VALID_ASCII(c) (c)!=0
-/* Variable global de la posicion en pantalla */
-int screen_pos = 0;
+
+extern screen_pos;
 
 /* mapeo de los estados del teclado */
 int numlock=0,caps=0,scrolllock=0,shift=0,altgr=0;
 
+/* Contador del cursor */
 int counter=0;
 
-void
-int_08()
+static void
+parpadeo()
 {
 	counter++;
 	if(counter == DELAY/2)
@@ -25,6 +26,12 @@ int_08()
 		_RestoreCursor();
 		counter = 0;
 	}
+}
+
+void
+int_08()
+{
+	parpadeo();
 }
 
 
@@ -81,7 +88,7 @@ int_09_LAT(unsigned char code)
 	        else if( IS_NUMPAD_KEY(code) && !numlock)
 	            return 0;
 		else
-		{		
+		{
 			if( IS_MAKE_CODE(code) && code<=CANT_KEYS)
 			{
 			    ascii=ToAsciiLAT(code);

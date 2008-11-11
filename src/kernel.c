@@ -27,29 +27,29 @@ kmain()
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
         setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
 
-        /* Por default el teclado esta en latino */
+        /* Por default el teclado esta en ingles */
         setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand_US,ACS_INT, 0);
 
-/* Carga de IDTR    */
+        /* Carga de IDTR    */
 
-	idtr.base = 0;
-	idtr.base +=(dword) &idt;
-	idtr.limit = sizeof(idt)-1;
+        idtr.base = 0;
+        idtr.base +=(dword) &idt;
+        idtr.limit = sizeof(idt)-1;
 
-	_lidt (&idtr);
+        _lidt (&idtr);
 
-	_Cli();
+        _Cli();
 
-/* Habilito interrupcion de timer tick y el teclado */
+        /* Habilito interrupcion de timer tick y el teclado */
 
         _mascaraPIC1(0xFC);
         _mascaraPIC2(0xFF);
 
-	_Sti();
+        _Sti();
 
 
-	/* Se inicia el shell */
-	shell();
+        /* Se inicia el shell */
+        shell();
 
 
 }
