@@ -1,6 +1,14 @@
+/***********************************************************************************
+ * Ints.h
+ *
+ * Handlers de interrupciones
+ *
+ ***********************************************************************************/
+
+
 #ifndef INTS_H_
 #define INTS_H_
-#include "defs.h"
+
 int int_09_LAT(unsigned char code);
 int int_09_US(unsigned char code);
 void int_80w(FileDesc fd, const void * buff, int size);

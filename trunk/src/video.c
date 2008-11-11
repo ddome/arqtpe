@@ -4,7 +4,8 @@
 #include "../include/kasm.h"
 #include "../include/buffer.h"
 
-extern int screen_pos;
+/* Variable global de la posicion en pantalla */
+int screen_pos = 0;
 
 int
 writeWrapper(const void * buff, int size)
@@ -91,7 +92,6 @@ getline(char *buffer, int max)
     int last = EMPTY;
 
     do {
-    	/* CAMBIAR, no se puede acceder al teclado directamente */
 		if( !BufferIsEmpty() ) {
 		/* chequea y lee en caso de haber una entrada pendiente */
 			read(KEYBOARD,&(c[0]),1);
@@ -135,10 +135,13 @@ printLine(char *line)
 void
 welcome()
 {
-	printf("===============================================================================\n");
-    printf("                      	         Minikernel v0.6                               \n");
-    printf("                                  ITBA 27-09-08                                \n");
-	printf("===============================================================================\n");
+    printf(" __  __ _       _ _  __    ____________________________________________\n");
+    printf("|  \\/  (_)_ __ (_) |/ /    Minikernel v1.0                             \n");
+    printf("| |\\/| | | '_ \\| | ' /     Version: November-08                        \n");
+    printf("| |  | | | | | | | . \\     ITBA - Arquitectura de Computadoras         \n");
+    printf("|_|  |_|_|_| |_|_|_|\\_\\    ____________________________________________\n");
+    printf("                      	                                                       \n");
+    printf("type ? for help                                                                \n");
 	printf("\n");
 }
 
@@ -149,9 +152,9 @@ help()
 	printf("===============================================================================\n");
 	printf("                              Comandos disponibles                             \n");
 	printf("\n");
-	printf(" clear : limpia la pantalla \n");
-	printf(" lspci : lista los dispositivos pci disponibles \n");
-	printf(" help  : muestra un menu de ayuda \n");
+	printf(" clear            : limpia la pantalla \n");
+	printf(" lspci            : lista los dispositivos pci disponibles \n");
+	printf(" loadkeys [us,la] : cambia el idioma del teclado \n");
 	printf("\n");
 	printf("===============================================================================\n");
 	printf("\n");

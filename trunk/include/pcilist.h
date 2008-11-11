@@ -204,9 +204,9 @@ PCI_VENTABLE PciVenTable [] =
 } ;
 
 
-PCI_VENTABLE PciVenTable2 [] =
+/* PCI_VENTABLE PciVenTable2 [] =
 {
-/*	{ 0x10C8, "Neomagic", "Neomagic Corporation" } ,
+	{ 0x10C8, "Neomagic", "Neomagic Corporation" } ,
 	{ 0x10C9, "Dataexpert", "Dataexpert Corporation" } ,
 	{ 0x10CA, "Fujitsu", "Fujitsu Siemens" } ,
 	{ 0x10CB, "Omron", "Omron Corporation" } ,
@@ -1518,9 +1518,9 @@ PCI_VENTABLE PciVenTable2 [] =
 	{ 0xECC0, "Echo", "Echo Digital Audio Corporation" } ,
 	{ 0xEDD8, "ARK Logic", "ARK Logic, Inc" } ,
 	{ 0xF5F5, "", "F5 Networks Inc." } ,
-	{ 0xFA57, "Interagon", "Interagon AS" } , */
+	{ 0xFA57, "Interagon", "Interagon AS" } ,
 	{ 0, "", "" }
-} ;
+} ; */
 
 #define	PCI_VENTABLE_LEN	(sizeof(PciVenTable)/sizeof(PCI_VENTABLE))
 
