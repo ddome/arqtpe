@@ -47,9 +47,7 @@ kmain()
 
         _Sti();
 
-
         /* Se inicia el shell */
-        _DelCursor();
         shell();
 
 

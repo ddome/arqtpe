@@ -47,6 +47,7 @@ writeWrapper(const void * buff, int size)
 			write (SCREEN,buff+i,1);
 		}
 	}
+	move_cursor(screen_pos/2);
 
     return size;
 }
@@ -176,4 +177,21 @@ void
 set_screen(void)
 {
 	screen_pos = 0;
+	move_cursor(0);
 }
+
+void
+move_cursor(unsigned short int pos)
+{
+   myout(0x3D4, 0x0F);
+   myout(0x3D5, (unsigned char)(pos&0xFF));
+   myout(0x3D4, 0x0E);
+   myout(0x3D5, (unsigned char )((pos>>8)&0xFF));
+}
+
+
+
+
+
+
+
