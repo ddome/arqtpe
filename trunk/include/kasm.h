@@ -42,4 +42,6 @@ void 		_MoveCursor(int pos);
 void		_DelCursor(void);
 void		_RestoreCursor(void);
 
+void		_Fault();
+
 #endif

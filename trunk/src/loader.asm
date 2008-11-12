@@ -33,3 +33,4 @@ eokl	dd STACKSIZE + stack
 	align 32
 	stack:
 	resb STACKSIZE		; reserve 16k stack on a quadword boundary
+

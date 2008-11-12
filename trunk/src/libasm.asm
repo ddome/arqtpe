@@ -6,6 +6,7 @@ GLOBAL  _debug
 GLOBAL _MoveCursor
 GLOBAL _DelCursor
 GLOBAL _RestoreCursor
+GLOBAL _Fault
 
 EXTERN  int_08
 EXTERN  int_80w
@@ -369,5 +370,6 @@ _RestoreCursor:
      pop ebp
      ret
 
-
+_Fault:
+ 	INT 0h
 

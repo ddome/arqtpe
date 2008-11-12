@@ -4,8 +4,8 @@
 #include "../include/pci.h"
 #include "../include/kasm.h"
 
-enum { VOID=-1, CLEAR, KEYSLA, KEYSUS, LISTPCI, HELP, NOTFOUND };
-#define NCOM 5
+enum { VOID=-1, CLEAR, KEYSLA, KEYSUS, LISTPCI, HELP, REBOOT, NOTFOUND };
+#define NCOM 7
 
 int
 strcmp(char* s1, char* s2)
@@ -30,7 +30,7 @@ strcmp(char* s1, char* s2)
 int
 command(char *line )
 {
-	char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?" };
+	char * comlist[] = { "clear", "loadkeys la", "loadkeys us", "lspci", "?", "reboot" };
 
 
 	if( line[0] == '\0' )
@@ -53,6 +53,7 @@ bash(char *line  )
 	fnumber = command(line);
 	switch(fnumber)
 	{
+	case VOID: break;
 	case CLEAR: clear_screen();
 				break;
 	case HELP:  help();
@@ -63,6 +64,8 @@ bash(char *line  )
 				 break;
 	case KEYSUS: loadkeysus();
 		         break;
+	case REBOOT: reboot();
+
 	default: 	printf("bash: ");
 				printf(line);
 				printf(": command not found -- Try ? for help\n");

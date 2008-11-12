@@ -149,14 +149,15 @@ void
 help()
 {
 
-	printf("===============================================================================\n");
+	printf("_______________________________________________________________________________\n");
+	printf("\n");
 	printf("                              Comandos disponibles                             \n");
 	printf("\n");
-	printf(" clear            : limpia la pantalla \n");
-	printf(" lspci            : lista los dispositivos pci disponibles \n");
-	printf(" loadkeys [us,la] : cambia el idioma del teclado \n");
-	printf("\n");
-	printf("===============================================================================\n");
+	printf(" clear            : limpia la pantalla                                         \n");
+	printf(" lspci            : lista los dispositivos pci disponibles                     \n");
+	printf(" loadkeys [us,la] : cambia el idioma del teclado                               \n");
+	printf(" reboot           : reinicia el sistema                                        \n");
+	printf("_______________________________________________________________________________\n");
 	printf("\n");
 }
 
@@ -181,4 +182,3 @@ set_screen(void)
 	screen_pos = 0;
 	_MoveCursor(0);
 }
-
