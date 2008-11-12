@@ -16,25 +16,10 @@ int numlock=0,caps=0,scrolllock=0,shift=0,altgr=0;
 /* Contador del cursor */
 int counter=0;
 
-static void
-parpadeo()
-{
-	counter++;
-	if(counter == DELAY/2)
-		_DelCursor();
-	if(counter == DELAY) {
-		_RestoreCursor();
-		counter = 0;
-	}
-}
-
 void
 int_08()
 {
-	parpadeo();
 }
-
-
 
 int
 int_09_US(unsigned char code)
