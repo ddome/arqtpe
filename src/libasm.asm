@@ -3,7 +3,6 @@ GLOBAL  _int_08_hand, _int_80_hand, write, read, _int_09_hand_US,_int_09_hand_LA
 GLOBAL myin, myout, myinw, myoutw, myinl, myoutl
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
-GLOBAL _MoveCursor
 GLOBAL _DelCursor
 GLOBAL _RestoreCursor
 GLOBAL _Fault
@@ -302,34 +301,6 @@ l2: in      al,60h                  ; Espero el ACK del 8042
     sti                             ; habilito interrupciones de nuevo
 	pop		ebp
     ret
-
-_MoveCursor:
-	push ebp
-    mov  ebp, esp
-    pusha
-
-	mov eax, [ebp+8]
-
-	mov edx, 0x3D4
-	mov ecx, eax
-	mov al, 0x0F
-	out dx, al
-	mov eax, ecx
-	inc edx
-	out dx, al
-	mov al, 0x0E
-	dec edx
-	out dx, al
-	mov eax, ecx
-	mov al, ah
-	inc edx
-	out dx, al
-
-	popa
-	mov esp,ebp
-	pop ebp
-	ret
-
 
 _DelCursor:
 	 push ebp

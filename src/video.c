@@ -48,9 +48,6 @@ writeWrapper(const void * buff, int size)
 		}
 	}
 
-	/* Actualizo la posicion del cursor */
-	_MoveCursor(screen_pos/2);
-
     return size;
 }
 
@@ -60,14 +57,13 @@ clear_screen()
 	char c = ' ';
 	unsigned int i=0;
 
-	screen_pos = 0;
+	screen_pos = 0;void		_DelCursor(void);
 
 	while(i < (80*25)){
 		i++;
 		putchar(c);
 	};
 	screen_pos = 0;
-	_MoveCursor(0);
 }
 
 void
@@ -180,5 +176,4 @@ void
 set_screen(void)
 {
 	screen_pos = 0;
-	_MoveCursor(0);
 }
