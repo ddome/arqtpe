@@ -32,4 +32,6 @@ void prompt(void);
 
 void set_screen(void);
 
+void move_cursor(unsigned short int pos);
+
 #endif

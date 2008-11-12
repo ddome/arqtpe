@@ -5,6 +5,7 @@ GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 GLOBAL _DelCursor
 GLOBAL _RestoreCursor
+GLOBAL _MoveCursor
 GLOBAL _Fault
 
 EXTERN  int_08
@@ -340,6 +341,8 @@ _RestoreCursor:
      mov esp,ebp
      pop ebp
      ret
+
+
 
 _Fault:
  	INT 0h
