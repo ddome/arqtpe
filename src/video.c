@@ -58,7 +58,7 @@ clear_screen()
 	char c = ' ';
 	unsigned int i=0;
 
-	screen_pos = 0;void		_DelCursor(void);
+	screen_pos = 0;
 
 	while(i < (80*25)){
 		i++;
@@ -183,10 +183,19 @@ set_screen(void)
 void
 move_cursor(unsigned short int pos)
 {
-   myout(0x3D4, 0x0F);
-   myout(0x3D5, (unsigned char)(pos&0xFF));
-   myout(0x3D4, 0x0E);
-   myout(0x3D5, (unsigned char )((pos>>8)&0xFF));
+	byte aux;
+
+	aux = 0x0F;
+	write(CURSOR1, &aux, 1);
+
+	aux = pos&0xFF;
+	write(CURSOR2, &aux, 1);
+
+	aux = 0x0E;
+	write(CURSOR1, &aux, 1);
+
+	aux = (pos>>8)&0xFF;
+	write(CURSOR2, &aux, 1);
 }
 
 

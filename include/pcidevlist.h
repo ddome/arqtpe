@@ -13,7 +13,7 @@ typedef struct _PCI_DEVTABLE
 
 PCI_DEVTABLE PciDevTable [] =
 {
-/*	{ 0x165C, 0x0002, "FT232BL", "FT232BL" } ,
+	{ 0x165C, 0x0002, "FT232BL", "FT232BL" } ,
 	{ 0x16AE, 0x1141, "SafeXcel-1141", "???" } ,
 	{ 0x11DB, 0x1234, "", "Dreamcast Broadband Adapter" } ,
 	{ 0x11DE, 0x6057, "ZR36057/36067", "AV PCI Controller" } ,
@@ -648,10 +648,9 @@ PCI_DEVTABLE PciDevTable [] =
 	{ 0x8086, 0x122E, "82371FB", "PCI to ISA Bridge (Triton)" } ,
 	{ 0x8086, 0x1230, "FW82371AB", "IDE Interface (Triton)" } ,
 	{ 0x8086, 0x1231, "16345", "DSVD Modem" } ,
-	{ 0x8086, 0x1234, "82371MX", "PCI to ISA Bridge" } ,
-*/	{ 0x8086, 0x1235, "82439TX", "Mobile System Controller (MTSC)" } ,
+	{ 0x8086, 0x1234, "82371MX", "PCI to ISA Bridge" } ,	{ 0x8086, 0x1235, "82439TX", "Mobile System Controller (MTSC)" } ,
 	{ 0x8086, 0x1237, "82440LX/EX", "PCI & Memory" } ,
-/*	{ 0x8086, 0x1239, "82371FB", "IDE Interface (Triton)" } ,
+	{ 0x8086, 0x1239, "82371FB", "IDE Interface (Triton)" } ,
 	{ 0x8086, 0x123B, "82380PB", "PCI to PCI Docking Bridge" } ,
 	{ 0x8086, 0x123C, "82380AB", "Mobile PCI-to-ISA Bridge (MISA)" } ,
 	{ 0x8086, 0x123D, "683053", "Programmable Interrupt Device" } ,
@@ -983,17 +982,17 @@ PCI_DEVTABLE PciDevTable [] =
 	{ 0x8086, 0x5309, "80303", "I/O Processor Address Translation Unit" } ,
 	{ 0x8086, 0x530D, "80312", "I/O Companion Unit Address Translation" } ,
 	{ 0x8086, 0x6960, "", "EHCI 960 emulator" } ,
-*/	{ 0x8086, 0x7000, "82371SB", "PIIX3 PCI-to-ISA Bridge (Triton II)" } ,
-/*	{ 0x8086, 0x7010, "82371SB", "PIIX3 IDE Interface (Triton II)" } ,
+	{ 0x8086, 0x7000, "82371SB", "PIIX3 PCI-to-ISA Bridge (Triton II)" } ,
+	{ 0x8086, 0x7010, "82371SB", "PIIX3 IDE Interface (Triton II)" } ,
 	{ 0x8086, 0x7020, "82371SB", "PIIX3 USB Host Controller (Triton II)" } ,
 	{ 0x8086, 0x7030, "82437VX", "System Controller" } ,
 	{ 0x8086, 0x7051, "PB 642365-003", "Intel Business Video Conferencing Card" } ,
 	{ 0x8086, 0x7100, "82439TX", "System Controller (MTXC), part of 430TX chipset" } ,
 	{ 0x8086, 0x7110, "82371AB/EB/MB", "PIIX4/4E/4M ISBridgeA " } ,
 	{ 0x8086, 0x7111, "82371AB/EB/MB", "PIIX4/4E/4M IDE Controller" } ,
-*/	{ 0x8086, 0x7112, "82371AB/EB/MB", "PIIX4/4E/4M USB Interface" } ,
+	{ 0x8086, 0x7112, "82371AB/EB/MB", "PIIX4/4E/4M USB Interface" } ,
 	{ 0x8086, 0x7113, "82371AB/EB/MB", "PIIX4/4E/4M Power Management Controller" } ,
-/*	{ 0x8086, 0x7120, "82810", "Host-Hub Interface Bridge / DRAM Ctrlr" } ,
+	{ 0x8086, 0x7120, "82810", "Host-Hub Interface Bridge / DRAM Ctrlr" } ,
 	{ 0x8086, 0x7121, "82810", "Graphics Controller" } ,
 	{ 0x8086, 0x7122, "82810-DC100", "Host-Hub Interface Bridge / DRAM Ctrlr" } ,
 	{ 0x8086, 0x7123, "82810-DC100", "Intel® 82810 Graphics Controller" } ,
@@ -2003,8 +2002,8 @@ PCI_DEVTABLE PciDevTable [] =
 	{ 0x1013, 0x00A4, "CL-GD5434", "Alpine GUI Accelerator" } ,
 	{ 0x1013, 0x00A8, "CL-GD5434", "Alpine GUI Accelerator" } ,
 	{ 0x1013, 0x00AC, "CL-GD5426", "Video card (i guess?)" } ,
-*/	{ 0x1013, 0x00B8, "CL-GD5446", "64-bit VisualMedia Accelerator" } ,
-/*	{ 0x1013, 0x00BC, "CL-GD5480", "64-bit SGRAM GUI accelerator" } ,
+	{ 0x1013, 0x00B8, "CL-GD5446", "64-bit VisualMedia Accelerator" } ,
+	{ 0x1013, 0x00BC, "CL-GD5480", "64-bit SGRAM GUI accelerator" } ,
 	{ 0x1013, 0x00D0, "CL-GD5462", "Laguna VisualMedia graphics accelerator" } ,
 	{ 0x1013, 0x00D4, "CL-GD5455", "Laguna 3D VisualMedia Graphics Accel" } ,
 	{ 0x1013, 0x00D5, "CL-GD5464", "Laguna BD" } ,
@@ -5253,7 +5252,7 @@ PCI_DEVTABLE PciDevTable [] =
 	{ 0x11D5, 0x0115, "10115", "Versatec Parallel Interface (VPI) + Centronics" } ,
 	{ 0x11D5, 0x0116, "10118", "DR11-W emulator" } ,
 	{ 0x11D5, 0x0117, "10117", "Versatec Parallel Interface (VPI) + Centronics" } ,
-	{ 0x11D5, 0x0118, "10118", "DR11-W emulator" } ,*/
+	{ 0x11D5, 0x0118, "10118", "DR11-W emulator" } ,
 	{ 0,0, "", "" }
 } ;
 

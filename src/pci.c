@@ -4,231 +4,106 @@
 
 #define  PCIBIOS_SUCCESSFUL                0x00
 
-
 extern PCI_VENTABLE	PciVenTable [];
 extern PCI_DEVTABLE	PciDevTable [];
 
-void auxdbg ()
-{
-	return;
-}
+static void print_vendor(unsigned short vendor);
+static void print_device(unsigned short vendor, unsigned short device);
+static int pcibios_read (unsigned long dato, unsigned int *value);
+static unsigned long armaDato (unsigned int bus, unsigned int devfn,
+		unsigned int func, unsigned int reg);
 
-int pcibios_read (unsigned long dato, unsigned int *value)
+static int
+pcibios_read (unsigned long dato, unsigned int *value)
 {
-	_Cli();
-    myoutl(0xCF8, dato);
-    _Sti();
-    _Cli();
-    myinl(0xCFC, value);
-    _Sti();
+	write(PCI,&dato, 1);
+	read(PCI, value, 1);
     return PCIBIOS_SUCCESSFUL;
 }
 
-unsigned short lspci (void)
+static void
+print_vendor(unsigned short vendor)
+{
+
+	int j = 0;
+	int flag = 0;
+	while (PciVenTable[j].VenId != 0 && flag == 0)
+	{
+		if (PciVenTable[j].VenId == vendor) {
+			printf(PciVenTable[j].VenFull);
+			printf("--");
+		}
+		j++;
+	}
+}
+
+static void
+print_device(unsigned short vendor, unsigned short device)
+{
+	int j = 0;
+	int flag = 0;
+	while (PciDevTable[j].VenId != 0 && flag == 0)
+	{
+		if (PciDevTable[j].VenId == vendor && PciDevTable[j].DevId == device)
+		{
+			printf(PciDevTable[j].ChipDesc);
+			printf("\n");
+			flag = 1;
+		}
+		j++;
+	}
+}
+
+
+unsigned short
+lspci (void)
 {
 	unsigned int devfn, l, bus, buses, func;
 	unsigned int first_bus, first_devfn, first_i;
 	unsigned char hdr_type = 0;
 	unsigned short vendor, device;
 	unsigned long dato;
-	int j, flag = 0;
 	unsigned short tmp = 0;
-	unsigned short usb= 0;
-	int bar [6];
-	
-	char aux[7] = {'0'};
-	char aux2[7] = {'0'};
-	   
+
 	int i = 0;
-	  
-	while (i++ < 6)
-		aux[i] = '0';
-	aux[6] = 0;
-	
-	i = 0;
-		  
-	while (i++ < 6)
-		aux2[i] = '0';
-	aux2[6] = 0;
 
 	first_bus = 0;
 		first_devfn = 0;
 		first_i = 0;
 
-
-
 	buses=256;
 		for (bus = first_bus; bus < buses; bus++) {
 			for (devfn = first_devfn; devfn < 32; ++devfn) {
-				for (func = 0; func < 8; func++)
-				{
+				for (func = 0; func < 8; func++) {
 					dato = armaDato (bus, devfn, func, 0);
+
 					pcibios_read(dato, &l);
-					/* some broken boards return 0 if a slot is empty: */
 					if (l == 0xffffffff || l == 0x00000000) {
 						hdr_type = 0;
-						//printf("SI\n");
+						/* si no encuentra un dispositivo, sale del ciclo */
 						continue;
 					}
 					vendor = l & 0xffff;
-				
 					device = (l >> 16) & 0xffff;
-				
-					i = 5;
-					tmp = vendor;
-					while (tmp > 0 && i >= 0)
-					{
-					   aux[i] = (tmp % 10) + '0';
-					   tmp /= 10;
-					   i--;
-					}
-					printf(aux);
-					printf("--");
-					
-					j = 0;
-					flag = 0;
-					while (PciVenTable[j].VenId != 0 && flag == 0)
-					{
-						if (PciVenTable[j].VenId == vendor)
-						{
-							printf(PciVenTable[j].VenFull);
-							printf("--");
-							
-							flag = 1;
-							
-						}
-						j++;
-					}
-					
-					//printf(PciVenTable[0].VenFull);
-					
-					i = 5;
-					tmp = device;
-					while (tmp > 0 && i >= 0)
-					{
-					   aux2[i] = (tmp % 10) + '0';
-					   tmp /= 10;
-					   i--;
-					}
-					printf(aux2);
-					printf("--");
-				
-				
-				
-					j = 0;
-					flag = 0;
-					while (PciDevTable[j].VenId != 0 && flag == 0)
-					{
-						if (PciDevTable[j].VenId == vendor && PciDevTable[j].DevId == device)
-						{
-							printf(PciDevTable[j].ChipDesc);
-							printf("\n");
-							flag = 1;
-						}
-						j++;
-					}
-					while (i++ < 6)
-						aux[i] = '0';
-					aux[6] = 0;
-						
-					i = 0;
-							  
-					while (i++ < 6)
-						aux2[i] = '0';
-					aux2[6] = 0;
-					
-					auxdbg ();
-					int kregs = 0;
-					int i = 0;
-					for (kregs = 0x10; kregs <= 0x24; kregs+= 0x4)
-						{
-							
-							dato = armaDato (bus, devfn, func, kregs);
-							pcibios_read(dato, &l);
-							/* some broken boards return 0 if a slot is empty: */
-							if (l == 0xffffffff || l == 0x00000000) {
-								hdr_type = 0;
-								//printf("SI\n");
-								bar[i++] = l;
-								continue;
-							}
-							bar[i++] = l;
-										
-						}
-					tmp = bar[4];
-					while (tmp > 0 && i >= 0)
-					{
-						aux2[i] = (tmp % 10) + '0';
-						tmp /= 10;
-						i--;
-					}
-					printf(aux2);
-					printf("bar");
-					printf("\n");
-										
-					i = 0;
-										  
-					while (i++ < 6)
-						aux2[i] = '0';
-					aux2[6] = 0;
-					
-					usb = 0;
-					usb_read (2, &usb);
-					i = 5;
-					tmp = usb;
-					while (tmp > 0 && i >= 0)
-						{
-						aux2[i] = (tmp % 10) + '0';
-					   tmp /= 10;
-					   i--;
-					}
-					printf(aux2);
-					printf("\n");
-					
-					i = 0;
-					  
-					while (i++ < 6)
-						aux2[i] = '0';
-					aux2[6] = 0;
-				}
-				
-				
-					
 
-			}
-		}
+					/* imprimo vendor y device */
+
+					print_vendor(vendor);
+					printf("--");
+					print_device(vendor, device);
+
+				} /* end for func */
+			} /* end for devfn */
+		} /* end for bus */
 	printf("\n");
 }
 
-unsigned long armaDato (unsigned int bus, unsigned int devfn, unsigned int func, unsigned int reg)
+static unsigned long
+armaDato (unsigned int bus, unsigned int devfn, unsigned int func, unsigned int reg)
 {
 	unsigned long dato = 0;
 	dato = ((unsigned long) 0x80000000 | (bus << 16) | (devfn << 11) | (func << 8) | (reg));
 	return dato;
-	
-	
-}
 
-int usb_read (unsigned long dato, unsigned short *value)
-{
-	_Cli();
-	myoutw(0x1060, 0x2);
-	
-	int i = 100000000;
-	while (i--)
-		;
-	
-    myout(0x1060, 0x80);
-    myout(0x1061, 0x06);
-    myout(0x1062, 0x00);
-    myout(0x1063, 0x01);
-    myout(0x1064, 0x00);
-    myout(0x1065, 0x00);
-    myout(0x1066, 0x12);
-    myout(0x1067, 0x00);
-    _Sti();
-    _Cli();
-    myin(0x1060, value);
-    _Sti();
-    return PCIBIOS_SUCCESSFUL;
+
 }

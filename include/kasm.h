@@ -37,10 +37,11 @@ void		read(int fd, char *buff, int size);
 void		mywrite();
 void		myread();
 
+void 		myout(int port, byte dato);
+
 /* Funciones de control del cursor */
 void 		_MoveCursor(int pos);
-void		_DelCursor(void);
-void		_RestoreCursor(void);
+
 
 void		_Fault();
 

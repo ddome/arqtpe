@@ -6,6 +6,9 @@
 #ifndef _defs_
 #define _defs_
 
+
+typedef enum { SCREEN, KEYBOARD, PCI, CURSOR1, CURSOR2,  SCREENNL } F_DESCRIPTOR;
+
 #define byte unsigned char
 #define word short int
 #define dword int
@@ -31,16 +34,12 @@
 #define CANT_COLS 80
 #define CANT_ROWS 25
 #define VID_CHAR 2
-#define SCREEN 1
-#define SCREENNL 2
-#define DELAY 20 // delay del parpadeo del cursor
 
 // defines sacados a partir de http://docs.hp.com/en/65/books/uidatt.htm
 #define WHITE_TXT 0x07	// Atributo de video. Letras blancas, fondo negro
 #define RED_TXT	0x74	// Atributo de video. Letras rojas, fondo gris
 
 /*Ctes para teclado*/
-#define KEYBOARD 1
 #define MAX_CHARS 200
 #define EMPTY -1
 #define READ 1
