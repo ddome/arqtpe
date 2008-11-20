@@ -64,8 +64,12 @@ lspci (void)
 	unsigned short vendor, device;
 	unsigned long dato;
 	unsigned short tmp = 0;
+	
+	unsigned short arr[8];
+	int arrind = 0;
 
 	int i = 0;
+	int flag;
 
 	first_bus = 0;
 		first_devfn = 0;
@@ -74,7 +78,8 @@ lspci (void)
 	buses=256;
 		for (bus = first_bus; bus < buses; bus++) {
 			for (devfn = first_devfn; devfn < 32; ++devfn) {
-				for (func = 0; func < 8; func++) {
+				for (func = 0; func < 8, flag == 0; func++) {
+					arrind = 0;
 					dato = armaDato (bus, devfn, func, 0);
 
 					pcibios_read(dato, &l);
@@ -83,8 +88,26 @@ lspci (void)
 						/* si no encuentra un dispositivo, sale del ciclo */
 						continue;
 					}
+					
+					
+					
 					vendor = l & 0xffff;
 					device = (l >> 16) & 0xffff;
+					flag = 0;
+					for (i = 0; flag !=0, i < arrind; i++)
+					{
+						if (device == arr[i])
+						{
+							flag = 1;
+						}
+							
+					}
+					if (flag == 1)
+					{
+						continue;
+					}
+					
+					arr[arrind++] = device;
 
 					/* imprimo vendor y device */
 
