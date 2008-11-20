@@ -84,17 +84,11 @@ int_09_LAT(unsigned char code)
 		return 0;
 }
 
-void
-int_80w(FileDesc fd, const void * buff, int size)
+static void
+s_write(const void* buff, int size)
 {
-	char * video;
-	switch (fd)
-	{
-		case SCREEN: video = (char *) 0xb8000; break;
-		default: video = (char *) 0xb8000; break;
-	}
-
     int i;
+    char *video = (char *) 0xb8000;
 
     _Cli();
     for(i = 0; i < size; i++)
@@ -105,39 +99,97 @@ int_80w(FileDesc fd, const void * buff, int size)
     _Sti();
 }
 
+static void
+l_write(int p, const void *buff, int size)
+{
+	int i;
+    _Cli();
+
+    for(i = 0; i < size; i++) {
+    	myoutl( p , ( (int *) buff )[i] );
+    }
+    _Sti();
+}
+
+static void
+b_write(int p, const void *buff, int size)
+{
+	int i;
+    _Cli();
+
+    for(i = 0; i < size; i++) {
+    	myout( p , ( (byte *) buff )[i] );
+    }
+    _Sti();
+}
+
+
+
 void
-int_80r(FileDesc fd, char * buff, int size)
+int_80w(FileDesc fd, const void * buff, int size)
+{
+	switch (fd)
+	{
+		case SCREEN:  s_write(buff,size); break;
+		case PCI   :  l_write(0x0CF8, buff,size); break;
+		case CURSOR1:  b_write(0x3D4, buff, size); break;
+		case CURSOR2:  b_write(0x3D5, buff, size); break;
+	}
+}
+
+static void
+k_read(char *buff, int size)
+{
+	int i=0;
+	_Cli();
+	while( !BufferIsEmpty() && i< size ) {
+
+		buff[i] = GetFromBuffer() ;
+		i++;
+	}
+
+	_Sti();
+
+}
+
+static void
+s_read(char *buff, int size) {
+	int i=0;
+
+	char * video;
+	video = (char *) 0xb8000;
+	_Cli();
+
+	while( i< size ) {
+
+		buff[i] = *(video + screen_pos + CANT_COLS *2);
+		i++;
+
+	}
+
+	_Sti();
+}
+
+static void
+l_in(int p, int *buff, int size)
+{
+	int i;
+    for(i = 0; i < size; i++) {
+    	myinl( p, &(buff[i]) );
+    }
+}
+
+void
+int_80r(FileDesc fd, void * buff, int size)
 {
 	int i = 0;
-	if (fd == KEYBOARD)
+
+	switch(fd)
 	{
-		_Cli();
-
-
-		while( !BufferIsEmpty() && i< size ) {
-
-			buff[i] = GetFromBuffer() ;
-			i++;
-		}
-
-		_Sti();
+	case KEYBOARD: k_read((char *)buff,size); break;
+	case SCREENNL: s_read((char *)buff,size); break;
+	case PCI	 : l_in(0xCFC, buff,size);   break;
 	}
-	else if (fd == SCREENNL)
-	{
-		char * video;
-		video = (char *) 0xb8000;
-		_Cli();
-
-		while( i< size ) {
-
-			buff[i] = *(video + screen_pos + CANT_COLS *2);
-			i++;
-
-		}
-
-		_Sti();
-	}
-
 }
 
 

@@ -12,6 +12,6 @@
 int int_09_LAT(unsigned char code);
 int int_09_US(unsigned char code);
 void int_80w(FileDesc fd, const void * buff, int size);
-void int_80r(FileDesc fd, char * buff, int size);
+void int_80r(FileDesc fd, void * buff, int size);
 
 #endif /*INTS_H_*/

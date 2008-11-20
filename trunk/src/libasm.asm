@@ -4,8 +4,6 @@ GLOBAL myin, myout, myinw, myoutw, myinl, myoutl
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 GLOBAL _DelCursor
-GLOBAL _RestoreCursor
-GLOBAL _MoveCursor
 GLOBAL _Fault
 
 EXTERN  int_08
@@ -302,45 +300,6 @@ l2: in      al,60h                  ; Espero el ACK del 8042
     sti                             ; habilito interrupciones de nuevo
 	pop		ebp
     ret
-
-_DelCursor:
-	 push ebp
-	 mov ebp,esp
-
-     pusha
-     mov	 bx, 0xF00
-     mov     dx, 0x3D4
-     mov     al, 0x0A
-     mov     ah, bh
-     out     dx, ax
-     inc     ax
-     mov     ah, bl
-     out     dx, ax
-     popa
-
-     mov esp,ebp
-     pop ebp
-     ret
-
-
-_RestoreCursor:
-	 push ebp
-	 mov ebp,esp
-
-     pusha
-     mov	 bx, 0xFF0
-     mov     dx, 0x3D4
-     mov     al, 0x0A
-     mov     ah, bh
-     out     dx, ax
-     inc     ax
-     mov     ah, bl
-     out     dx, ax
-     popa
-
-     mov esp,ebp
-     pop ebp
-     ret
 
 
 

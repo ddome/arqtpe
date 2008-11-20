@@ -8,10 +8,12 @@ SECTIONS{
     }
 
     .rodata ALIGN (0x1000) : {
+        *(COMMON)
         *(.rodata)
     }
 
     .data ALIGN (0x1000) : {
+        *(COMMON)
         *(.data)
     }
 

@@ -200,12 +200,6 @@ PCI_VENTABLE PciVenTable [] =
 	{ 0x10C4, "wim", "Award Software Int'l Inc." } ,
 	{ 0x10C5, "Xerox", "Xerox Corporation" } ,
 	{ 0x10C6, "Rambus", "Rambus Inc." } ,
-	{ 0, "", "" }
-} ;
-
-
-/* PCI_VENTABLE PciVenTable2 [] =
-{
 	{ 0x10C8, "Neomagic", "Neomagic Corporation" } ,
 	{ 0x10C9, "Dataexpert", "Dataexpert Corporation" } ,
 	{ 0x10CA, "Fujitsu", "Fujitsu Siemens" } ,
@@ -1520,9 +1514,98 @@ PCI_VENTABLE PciVenTable [] =
 	{ 0xF5F5, "", "F5 Networks Inc." } ,
 	{ 0xFA57, "Interagon", "Interagon AS" } ,
 	{ 0, "", "" }
-} ; */
+} ;
 
 #define	PCI_VENTABLE_LEN	(sizeof(PciVenTable)/sizeof(PCI_VENTABLE))
+
+typedef struct uhciDevice
+{
+    unsigned short vendorID;
+    unsigned short deviceID;
+    char *device;
+}uhciDevice;
+
+uhciDevice uhciDevices[] =
+{
+    {0x0E11, 0x7020, "USB Controller"},
+    {0x1000, 0x0901, "61C102USB Controller"},
+    {0x100B, 0x0012, "USB Controller"},
+    {0x100B, 0x002F, "GeodeUSB Controller"},
+    {0x1022, 0x2096, "Number: CS5536CS5536 USB Device Controller"},
+    {0x1022, 0x2097, "CS5536CS5536 USB OTG Controller"},
+    {0x1022, 0x7412, "AMD-766USB Controller"},
+    {0x1022, 0x7449, "AMD-768USB Controller"},
+    {0x1022, 0x7461, "AMD-8111USB 2.0 Controller"},
+    {0x1022, 0x7463, "AMD-8111USB Enhanced Host Controller"},
+    {0x1025, 0x5237, "M5237PCI USB Host Controller"},
+    {0x102F, 0x0106, "TC86C001FGGOKU-S USB Host Controller"},
+    {0x102F, 0x0107, "TC86C001FGGOKU-S USB Device Controller"},
+    {0x1033, 0x00E0, "uPD720100AUSB 2.0 Host Controller"},
+    {0x1039, 0x7001, "SiS7001USB Host Controller"},
+    {0x1039, 0x7002, "SiS7001USB 2.0 Enhanced Host Controller"},
+    {0x103C, 0x0024, "?Standard Vista USB Keyboard"},
+    {0x1045, 0xA0F8, "82C750PCI USB Controller"},
+    {0x1045, 0xC178, "82C178pci usb card 2- port"},
+    {0x1045, 0xC861, "82C861FireLink PCI-to- 5 x USB Bridge( usb1.1 )"},
+    {0x104A, 0x0230, "STPC AtlasUSB Controller"},
+    {0x1055, 0x9462, "SLC90E66Victory66 USB Host Controller"},
+    {0x106B, 0x0026, "PangeaUSB Interface"},
+    {0x1085, 0x0001, "UsbDgnDatalaster Interface for OBD automotive"},
+    {0x108E, 0x1103, "RIO USB"},
+    {0x1095, 0x0670, "USB0670PCI-USB"},
+    {0x1095, 0x0673, "USB0673PCI-USB ASIC"},
+    {0x10AB, 0x1005, "USB\\VID_0000&PID_0000\\5&5657949&0&8USB Bluetooth"},
+    {0x10DE, 0x00D8, "nForce MCP3?Enhanced PCI to USB Host Controller"},
+    {0x10DE, 0x00E8, "nForce3 250Enhanced PCI to USB Controller"},
+    {0x10DE, 0x036d, "81FB1043Standard PCI-to-USB Enhanced Hostcontroller"},
+    {0x1106, 0x3038, "VT83C572/6202/82C586A/B/82C596/A/B/82C686A/B etcUSB&UHCI"},
+    {0x1106, 0x3104, "VT6202USB 2.0 Enhanced Host Controller"},
+    {0x1130, 0xF211, "0x010USB Audio Sound Card"},
+    {0x1166, 0x0223, "0x0223USB controller"},
+    {0x11C1, 0x5805, "uss344USB Advanced Host Controller"},
+    {0x125B, 0x0B95, "AX88772USB2.0 to 10/100M Fast Ethernet Controller"},
+    {0x1344, 0x4030, "CopperHead CopperTail SC1 USB Controller"},
+    {0x14E4, 0x4313, "BCM4310usb controller, wireless network card"},
+    {0x14E4, 0x4615, "BCM4610Sentry5 USB Controller"},
+    {0x14E4, 0x4715, "BCM47xxSentry5 USB Controller"},
+    {0x14E4, 0x4716, "BCM47xxSentry5 USB Host Controller"},
+    {0x14E4, 0x4717, "BCM47xxSentry5 USB Device Controller"},
+    {0x15AD, 0x0770, "n/aStandard Enhanced PCI to USB Host Controller"},
+    {0x17CC, 0x2280, "Net 2280USB 2.0 Device Controller"},
+    {0x8086, 0x2412, "82801AAUSB Controller"},
+    {0x8086, 0x2422, "82801ABUSB Controller"},
+    {0x8086, 0x2442, "82801BA/BAMUSB Controller, USB-A"},
+    {0x8086, 0x2444, "82801BA/BAMUSB Controller, USB-B"},
+    {0x8086, 0x2452, "82801EUSB Controller"},
+    {0x8086, 0x2482, "82801CA/CAMUSB Controller"},
+    {0x8086, 0x2484, "82801CA/CAMUSB Controller"},
+    {0x8086, 0x2487, "82801CA/CAMUSB Controller"},
+    {0x8086, 0x24C2, "82801DB/DBL/DBMUSB UHCI Controller #1"},
+    {0x8086, 0x24C4, "82801DB/DBL/DBMUSB UHCI Controller"},
+    {0x8086, 0x24C7, "82801DB/DBL/DBMUSB UHCI Controller #3"},
+    {0x8086, 0x24D2, "82801EB/ERUSB UHCI Controller #1"},
+    {0x8086, 0x24D4, "82801EB/ERUSB UHCI Controller #2"},
+    {0x8086, 0x24D7, "82801EB/ERUSB UHCI Controller #3"},
+    {0x8086, 0x24DE, "82801EB/ERUSB UHCI Controller #4"},
+    {0x8086, 0x25A9, "6300ESBUSB 1.1 UHCI Controller #1"},
+    {0x8086, 0x25AA, "6300ESBUSB 1.1 UHCI Controller #2"},
+    {0x8086, 0x2658, "82801FB/FR/FW/FRWUSB UHCI Controller #1"},
+    {0x8086, 0x2659, "82801FB/FR/FW/FRWUSB UHCI Controller #2"},
+    {0x8086, 0x265A, "82801FB/FR/FW/FRWUSB UHCI Controller #3"},
+    {0x8086, 0x265B, "82801FB/FR/FW/FRWUSB UHCI Controller #4"},
+    {0x8086, 0x27c8, "-USB UHCI Controller"},
+    {0x8086, 0x27c9, "-USB UHCI Controller"},
+    {0x8086, 0x27CA, "-USB UHCI Controller"},
+    {0x8086, 0x27CB, "USB UHCI Controller"},
+    {0x8086, 0x283A, "81EC1043 (?)ICH8 Enhanced USB2 Enhanced Host Controller"},
+    {0x8086, 0x7020, "82371SBPIIX3 USB Host Controller (Triton II)"},
+    {0x8086, 0x7112, "82371AB/EB/MBPIIX4/4E/4M USB Interface"},
+    {0x8086, 0x719A, "82443MXUSB Universal Host Controller"},
+    {0x8086, 0x7602, "82372FB/82468GXUSB Host Controller"},
+    {0x8086, 0x85A9, "6300ESBUSB 1.1 UHCI Controller #1"},
+    {0x8086, 0x85AA, "6300ESBUSB 1.1 UHCI Controller #2"},
+    {0, 0, ""}
+};
 
 
 #endif /*PCILIST_H_*/
